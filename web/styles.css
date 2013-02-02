@@ -8,18 +8,18 @@
 
 /*DF
  *		Background Blue:	2e86c4
- *		Border Blue:		27608c
+ *		Dark Blue:			0f5180
  *		Bubble Yellow:		ffda6e
  *		Action Orange:		ff672f
  */
 
 
 body {
-	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	font-family: Grobold;
+	color: #0f5180;
 	background: #42413C;
 	margin: 0;
 	padding: 0;
-	color: #000;
 }
 /* ~~ Element/tag selectors ~~ */
 ul, ol, dl { /* Due to variations between browsers, it's best practices to zero padding and margin on lists. For consistency, you can either specify the amounts you want here, or on the list items (LI, DT, DD) they contain. Remember that what you do here will cascade to the .nav list unless you write a more specific selector. */
@@ -51,7 +51,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 /* ~~ This fixed width container surrounds all other blocks ~~ */
 .container {
 	width: 760px;
-	background: #2e86c4;
+	background: #2e86c4; /* background blue */;
 	margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout */
 }
 
@@ -59,8 +59,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 /* ~~ The header is not given a width. It will extend the full width of your layout. ~~ */
 header {
 	height: 80px;
-	background: #2e86c4; 
-	font-family: Grobold;
+	background: #2e86c4; /* background blue */; 
 	font-size: large;
 }
 
@@ -86,33 +85,57 @@ header img {
 	vertical-align:middle;	
 }
 
-.sidebar {
-	float: left;
-	width: 170px;
-	padding-bottom: 10px;
-}
-
 .sidebar_bubble {
 	float: left;
-	margin-top: 20px;
+	margin-top: 20px; /* distance from CQ logo */
 
-	padding: 10px 0;
+/*	padding: 10px 0;*/
 	width:170px;
 	height:300px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:4px solid #0f5180;
-	background-color:#ffda6e;
+	border:4px solid #0f5180; /* dark blue */;
+	background-color:#ffda6e; /* bubble yellow */;
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
 }
 
+.sidebar {
+	float: left;
+	width: 170px;
+	font-size: small;
+}
+
+/*  The image area and name / level of avatar */
+.avatar_sidebar {
+	padding-top: 10px; 
+	text-align:center;
+}
+
+/* 	The actual avatar image 	*/
 .sidebar #avatar_image {
 	border-width: 2px;
-	border-style: dotted;
+	border-style: solid;
+	border-color: #0f5180; /* dark blue */
+	margin-bottom: 5px;
 }
+
+/* The area in sidebar bubble with the scores */
+.sidebar_scores {
+	padding-top: 10px;
+	padding-right: 10px;
+	text-align: right;
+	color: #ff672f; /* action orange */
+}
+.sidebar_scores img {
+	vertical-align:middle;	
+	padding-left: 10px;
+}
+
+
+
 
 .content {
 	padding: 10px 0;
@@ -127,21 +150,6 @@ aside {
 	padding: 10px 0;
 }
 
-.avatar_sidebar {
-	font-family: Grobold;
-	padding: 10px;
-	text-align:center;
-}
-
-.profile {
-	font-family: Grobold;
-	padding: 10px;
-	text-align:center;
-}
-.profile img {
-	vertical-align:middle;	
-	padding-left: 10px;
-}
 
 /* ~~ This grouped selector gives the lists in the .content area space ~~ */
 .content ul, .content ol {
@@ -157,8 +165,8 @@ aside {
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:4px solid #0f5180;
-	background-color:#ffda6e;
+	border:4px solid #0f5180; /* dark blue */;
+	background-color:#ffda6e; /* bubble yellow */;
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
@@ -188,7 +196,7 @@ nav ul a:hover, nav ul a:active, nav ul a:focus { /* this changes the background
 /* ~~ The footer ~~ */
 footer {
 	padding: 10px 0;
-	background: #2e86c4; 
+	background: #2e86c4; /* background blue */; 
 	position: relative;/* this gives IE6 hasLayout to properly clear */
 	clear: both; /* this clear property forces the .container to understand where the columns end and contain them */
 	height:90px;
@@ -204,8 +212,8 @@ footer {
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:4px solid #0f5180;
-	background-color:#ffda6e;
+	border:4px solid #0f5180; /* dark blue */;
+	background-color:#ffda6e; /* bubble yellow */;
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
