@@ -6,6 +6,14 @@
   src: url(assets/GROBOLD.ttf);
 }       
 
+/*DF
+ *		Background Blue:	2e86c4
+ *		Border Blue:		27608c
+ *		Bubble Yellow:		ffda6e
+ *		Action Orange:		ff672f
+ */
+
+
 body {
 	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
 	background: #42413C;
@@ -43,7 +51,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 /* ~~ This fixed width container surrounds all other blocks ~~ */
 .container {
 	width: 760px;
-	background: white;
+	background: #2e86c4;
 	margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout */
 }
 
@@ -51,7 +59,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 /* ~~ The header is not given a width. It will extend the full width of your layout. ~~ */
 header {
 	height: 80px;
-	background: white; 
+	background: #2e86c4; 
 	font-family: Grobold;
 	font-size: large;
 }
@@ -94,8 +102,8 @@ header img {
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:4px solid #8D828F;
-	background-color:#9FC0D4;
+	border:4px solid #0f5180;
+	background-color:#ffda6e;
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
@@ -149,8 +157,8 @@ aside {
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:4px solid #8D828F;
-	background-color:#666;
+	border:4px solid #0f5180;
+	background-color:#ffda6e;
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
@@ -180,7 +188,7 @@ nav ul a:hover, nav ul a:active, nav ul a:focus { /* this changes the background
 /* ~~ The footer ~~ */
 footer {
 	padding: 10px 0;
-	background: white; 
+	background: #2e86c4; 
 	position: relative;/* this gives IE6 hasLayout to properly clear */
 	clear: both; /* this clear property forces the .container to understand where the columns end and contain them */
 	height:90px;
@@ -196,8 +204,8 @@ footer {
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
-	border:4px solid #8D828F;
-	background-color:#9FC0D4;
+	border:4px solid #0f5180;
+	background-color:#ffda6e;
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
