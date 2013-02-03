@@ -20,6 +20,7 @@ body {
 	background: #42413C;
 	margin: 0;
 	padding: 0;
+	font-size: small;
 }
 /* ~~ Element/tag selectors ~~ */
 ul, ol, dl { /* Due to variations between browsers, it's best practices to zero padding and margin on lists. For consistency, you can either specify the amounts you want here, or on the list items (LI, DT, DD) they contain. Remember that what you do here will cascade to the .nav list unless you write a more specific selector. */
@@ -32,21 +33,28 @@ h1, h2, h3, h4, h5, h6, p {
 	padding-left: 15px; /* adding the padding to the sides of the elements within the blocks, instead of the block elements themselves, gets rid of any box model math. A nested block with side padding can also be used as an alternate method. */
 }
 
+h1 {
+	font-size: large;	
+}
+h2 {
+	font-size: medium;	
+}
+
 a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
 	border: none;
 }
 
 /* ~~ Styling for your site's links must remain in this order - including the group of selectors that create the hover effect. ~~ */
 a:link {
-	color: #42413C;
-	text-decoration: underline; /* unless you style your links to look extremely unique, it's best to provide underlines for quick visual identification */
+	color: #ff672f;
+	text-decoration: none; /* unless you style your links to look extremely unique, it's best to provide underlines for quick visual identification */
 }
 a:visited {
-	color: #6E6C64;
-	text-decoration: underline;
+	color: #ff672f;
+	text-decoration: none;
 }
 a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
-	text-decoration: none;
+	text-decoration: underline;
 }
 /* ~~ This fixed width container surrounds all other blocks ~~ */
 .container {
@@ -60,7 +68,6 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 header {
 	height: 80px;
 	background: #2e86c4; /* background blue */; 
-	font-size: large;
 }
 
 header img {
@@ -87,11 +94,10 @@ header img {
 
 .sidebar_bubble {
 	float: left;
-	margin-top: 20px; /* distance from CQ logo */
-
+	margin-left: 10px;
+	margin-top: 00px; /* distance from CQ logo - add 20 to height to meet height of main  bubble */
 /*	padding: 10px 0;*/
 	width:170px;
-	height:300px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
@@ -105,7 +111,6 @@ header img {
 .sidebar {
 	float: left;
 	width: 170px;
-	font-size: small;
 }
 
 /*  The image area and name / level of avatar */
@@ -118,7 +123,7 @@ header img {
 .sidebar #avatar_image {
 	border-width: 2px;
 	border-style: solid;
-	border-color: #0f5180; /* dark blue */
+	border-color: #ff672f; /* action orange */
 	margin-bottom: 5px;
 }
 
@@ -132,14 +137,12 @@ header img {
 .sidebar_scores img {
 	vertical-align:middle;	
 	padding-left: 10px;
+	padding-bottom: 5px;
 }
 
 
-
-
 .content {
-	padding: 10px 0;
-	width: 580px;
+	width: 560px;
 	float: left; 
 }
 
@@ -158,10 +161,11 @@ aside {
 
 .content_area_bubble {
 	float: left;
-	margin: 20px;
+	margin-top: 00px;
+	margin-bottom: 20px;
+	margin-left: 20px;
 	padding: 10px 0;
-	width:500px;
-	height:300px;
+	width:520px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
@@ -170,6 +174,45 @@ aside {
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
+}
+
+.content_area_activity_chooser {
+	float: left;
+	padding-left: 10px;
+	padding-top: 10px;	
+}
+
+.content_area_activity_chooser h1 {
+	padding-bottom: 0px;
+	margin: 0px;	
+}
+
+.content_area_activity_chooser h2 {
+	padding-top: 5px;
+	padding-left: 40px;	
+	margin: 0px;	
+}
+
+.content_area_activity_chooser ul {
+	float: left;
+	list-style: none; /* this removes the list marker */
+	font-size: medium;
+	text-align: right;
+	padding-top: 0px;
+	padding-left: 100px;
+}
+
+
+.content_area_activity_chooser  ul a, nav ul a:visited {
+	float: right;
+	/* top right bottom middle*/
+	display: block; /* this gives the link block properties causing it to fill the whole LI containing it. This causes the entire area to react to a mouse click. */
+	padding-top: 10px
+}
+
+.content_area_activity_chooser img {
+	padding-left: 20px;
+	vertical-align: middle;	
 }
 
 /* ~~ The navigation list styles (can be removed if you choose to use a premade flyout menu like Spry) ~~ */
@@ -199,16 +242,16 @@ footer {
 	background: #2e86c4; /* background blue */; 
 	position: relative;/* this gives IE6 hasLayout to properly clear */
 	clear: both; /* this clear property forces the .container to understand where the columns end and contain them */
-	height:90px;
+	height:100px;
 }
 
 .footer_bubble {
 	float: left;
-	margin-left: 100px;
+	margin-left: 10px;
 
 	padding: 10px 0;
-	width:600px;
-	height:50px;
+	width:720px;
+	height:60px;
 	-webkit-border-radius: 25px;
 	-moz-border-radius: 25px;
 	border-radius: 25px;
@@ -217,6 +260,11 @@ footer {
 	-webkit-box-shadow: #212D45 16px 16px 16px;
 	-moz-box-shadow: #212D45 16px 16px 16px; 
 	box-shadow: #212D45 16px 16px 16px;	
+}
+
+.footer_bubble img {
+	margin-top: -5px;
+	vertical-align: middle;	
 }
 
 
