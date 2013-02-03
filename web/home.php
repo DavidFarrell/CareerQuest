@@ -1,6 +1,6 @@
 <?php
 
-require_once("./utility/database_utility.php");
+require_once("./utility/requires.php");
 
 ?>
 
