@@ -13,6 +13,7 @@ class Activity {
 	public $scoreAwareness;
 	public $scoreProfessionalism;
 	public $scoreWorkEthic;
+	public $activityChosen;
 	
 	// if creating from array row from DB, send null id
 	function __construct($id = "", $activity_array = "") {
@@ -59,7 +60,7 @@ class Activity {
 		$returnString .= "	scoreAbility=[".$this->scoreAbility."]\n";
 		$returnString .= "	scoreProfessionalism=[".$this->scoreProfessionalism."]\n";
 		$returnString .= "	scoreWorkEthic=[".$this->scoreWorkEthic."]\n";
-		
+		$returnString .= "  activityChosen=[".$this->activityChosen."]\n";
 		$returnString .="		//end Activity]";
 		
 		return $returnString;

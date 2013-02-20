@@ -7,14 +7,14 @@ class Player {
 	public $password;
 	public $forename;
 	public $surname;
-	public $autonomy_support;
-	public $relatedness_support;
-	public $competence_support;
-	public $lab_time;
+	public $autonomySupport;
+	public $relatednessSupport;
+	public $competenceSupport;
+	public $labTime;
 	public $notes;
-	public $experiment_opt_out;
-	public $game_id;
-	public $time_created;
+	public $experimentOptOut;
+	public $gameId;
+	public $timeCreated;
 	
 	function __construct($id = "") {
 		if ( $id != null) {
@@ -31,14 +31,14 @@ class Player {
 			$this->password = $player_array['password'];
 			$this->forename = $player_array['forename'];
 			$this->surname = $player_array['surname'];
-			$this->autonomy_support = $player_array['autonomy_support'];
-			$this->relatedness_support = $player_array['relatedness_support'];
-			$this->competence_support = $player_array['competence_support'];
-			$this->lab_time = $player_array['lab_time'];
+			$this->autonomySupport = $player_array['autonomy_support'];
+			$this->relatednessSupport = $player_array['relatedness_support'];
+			$this->competenceSupport = $player_array['competence_support'];
+			$this->labTime = $player_array['lab_time'];
 			$this->notes = $player_array['notes'];
-			$this->experiment_opt_out = $player_array['experiment_opt_out'];
-			$this->game_id = $player_array['game_id'];
-			$this->time_created = $player_array['time_created'];
+			$this->experimentOptOut = $player_array['experiment_opt_out'];
+			$this->gameId = $player_array['game_id'];
+			$this->timeCreated = $player_array['time_created'];
 		}
 	}
 	
@@ -48,14 +48,14 @@ class Player {
 		$returnString .= "	surname=[".$this->surname."]\n";
 		$returnString .= "	email=[".$this->email."]\n";
 		$returnString .= "	password=[".$this->password."]\n";
-		$returnString .= "	autonomy_support=[".$this->autonomy_support."]\n";
-		$returnString .= "	relatedness_support=[".$this->relatedness_support."]\n";
-		$returnString .= "	competence_support=[".$this->competence_support."]\n";
-		$returnString .= "	lab_time=[".$this->lab_time."]\n";
+		$returnString .= "	autonomySupport=[".$this->autonomySupport."]\n";
+		$returnString .= "	relatednessSupport=[".$this->relatednessSupport."]\n";
+		$returnString .= "	competenceSupport=[".$this->competenceSupport."]\n";
+		$returnString .= "	labTime=[".$this->labTime."]\n";
 		$returnString .= "	notes=[".$this->notes."]\n";
-		$returnString .= "	experiment_opt_out=[".$this->experiment_opt_out."]\n";
-		$returnString .= "	game_id=[".$this->game_id."]\n";
-		$returnString .= "	time_created=[".$this->time_created."]\n";
+		$returnString .= "	experimentOptOut=[".$this->experimentOptOut."]\n";
+		$returnString .= "	gameId=[".$this->gameId."]\n";
+		$returnString .= "	timeCreated=[".$this->timeCreated."]\n";
 		$returnString .="		//end Player]";
 		
 		return $returnString;

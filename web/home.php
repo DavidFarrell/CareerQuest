@@ -1,7 +1,6 @@
 <?php
 
 require_once("./utility/requires.php");
-
 ?>
 
 <!DOCTYPE HTML>
@@ -30,11 +29,11 @@ require_once("./utility/requires.php");
         </a>
     </div>
     <div class="graduation">
-    	<p>Graduation: 8 Weeks</p>
+    	<p><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: 8 Weeks</p>
     </div>
 
   	<div class="header_score">
-		8
+		<?php print $avatar->scoreEmployability; ?>
         <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
     </div>
 	
@@ -45,33 +44,33 @@ require_once("./utility/requires.php");
       <div class="sidebar">
         <div class="avatar_sidebar" >
             <a href=""><img src="../avatars/dfavatar.png" width="73" height="73" id="avatar_image"></a>
-           <br/>Unthank
+           <br/><?php print $avatar->avatarName; ?>
            <br>Level 1: Jobseeker
         </div>
       
         <div class="sidebar_scores" id="employability_score">
         	<a href="">
-                Employability: 8
+                Employability: <?php print $avatar->scoreEmployability; ?>
                 <img src="../assets/employability_logo.png" width="26" height="26"><br/>
 			</a>
             <a href="">
-                Wellbeing: 5
+                Wellbeing: <?php print $avatar->scoreWellbeing; ?>
                 <img src="../assets/wellbeing_logo.png" width="26" height="26">
 			</a>        	
             <a href="">
-                Awareness: 4
+                Awareness: <?php print $avatar->scoreAwareness; ?>
                 <img src="../assets/awareness_logo.png" width="26" height="26"><br/>
         	</a>
             <a href="">
-                Ability: 6
+                Ability: <?php print $avatar->scoreAbility; ?>
                 <img src="../assets/ability_logo.png" width="26" height="26"><br/>
         	</a>
 			<a href="">
-                Professionalism: 8
+                Professionalism: <?php print $avatar->scoreProfessionalism; ?>
                 <img src="../assets/professionalism_logo.png" width="26" height="26"><br/>
         	</a>
 			<a href="">
-                Work Ethic: 4
+                Work Ethic: <?php print $avatar->scoreWorkEthic; ?>
                 <img src="../assets/work_ethic_logo.png" width="26" height="26">
         	</a>
         </div>
@@ -82,18 +81,18 @@ require_once("./utility/requires.php");
     <section>
      <div class="content_area_bubble" style="height:300px;">
      	<div class="content_area_activity_chooser">
-        	<h1>Weekly Options</h1>
-            <H2>How would you like to act over the next fortnight?</H2>
+        	<h1><?php print $GLOBALS["homestrings"]["Weekly Options"][ ($player->autonomySupport)]; ?></h1>
+            <H2><?php print $GLOBALS["homestrings"]["weekly_prompt"][ ($player->autonomySupport)]; ?></H2>
             <ul>
-            	<li><a href="">Plan my week <img src="../assets/plan_my_week_logo.png" width="51" height="52"></a></li>
-                <li><a href="">Dilemma! <img src="../assets/dilemma_logo.png" width="52" height="52"></li></a>
+            	<li><a href="choose_weekly_activities.php"><?php print $GLOBALS["homestrings"]["plan_activities"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_week_logo.png" width="51" height="52"></a></li>
+                <li><a href=""><?php print $GLOBALS["homestrings"]["plan_dilemmas"][ ($player->autonomySupport)]; ?> <img src="../assets/dilemma_logo.png" width="52" height="52"></li></a>
             </ul>
         </div>
         <div class="content_area_activity_chooser">
-        	<h1>Daily Options</h1>
-            <H2>Check in daily for extra events.</H2>
+        	<h1><?php print $GLOBALS["homestrings"]["Daily_Options"][ ($player->autonomySupport)]; ?></h1>
+            <H2><?php print $GLOBALS["homestrings"]["daily_prompt"][ ($player->autonomySupport)]; ?></H2>
             <ul>
-            	<li><a href="">Daily Activity <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
+            	<li><a href=""><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
             </ul>
         </div>
      </div>

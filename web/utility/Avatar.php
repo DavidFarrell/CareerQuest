@@ -14,6 +14,7 @@ class Avatar {
 	public $scoreAbility;
 	public $scoreProfessionalism;
 	public $scoreWorkEthic;
+	public $scoreEmployability;
 	public $weeklyTimeUnitsCurrent;
 	public $weeklyTimeUnitsBase;
 	public $weeklyTimeUnitsBuff;
@@ -52,6 +53,8 @@ class Avatar {
 			$this->dailyTimeUnitsBase = $avatar_array['daily_time_units_base'];
 			$this->dailyTimeUnitsBuff = $avatar_array['daily_time_units_buff'];
 			$this->lastModified = $avatar_array['last_modified'];
+			
+			$this->scoreEmployability = floor( ($this->scoreAwareness + $this->scoreAbility + $this->scoreProfessionalism + $this->scoreWorkEthic)/4 );
 	
 		}
 	}

@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: Grobold;
-  src: url(assets/GROBOLD.ttf);
+  src: url(../assets/GROBOLD.ttf);
 }       
 
 /*DF
@@ -11,7 +11,27 @@
  *		Dark Blue:			0f5180
  *		Bubble Yellow:		ffda6e
  *		Action Orange:		ff672f
+ *		Error Red:			ff672f
  */
+
+.background_blue {
+	color: #ff672f;
+}
+.dark_blue {
+	color: #ff672f;
+}
+.bubble_yellow {
+	color: #ff672f;
+}
+.action_orange {
+	color: #ff672f;
+	display:inline;
+}
+
+.error_red {
+	color: #F00; /* error red */
+	display:inline;
+}
 
 
 body {
@@ -38,6 +58,16 @@ h1 {
 }
 h2 {
 	font-size: medium;	
+}
+
+.save_changes {
+	color: #ff672f;
+	display:inline;
+	float:right;
+	border-style:solid;
+	margin-right: 20px;
+	margin-top:-10px;
+	padding: 5px;
 }
 
 a img { /* this selector removes the default blue border displayed in some browsers around an image when it is surrounded by a link */
@@ -108,6 +138,16 @@ header img {
 	box-shadow: #212D45 16px 16px 16px;	
 }
 
+.error {
+	border-style:none;	
+	float: left;
+	margin-bottom: 00px;
+	margin-left: 50px;
+	padding: 0;
+	width:610px;	/*  This is same as activity_option */
+	color: #F00;
+}
+
 .sidebar {
 	float: left;
 	width: 170px;
@@ -176,6 +216,23 @@ aside {
 	box-shadow: #212D45 16px 16px 16px;	
 }
 
+.content_area_bubble_wide  {
+	float: left;
+	margin-top: 00px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	padding: 10px 0;
+	width:710px;	/*  This is content_area_bubble width + 170 for side bubble width + 20 margin left we're losing */
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	border:4px solid #0f5180; /* dark blue */;
+	background-color:#ffda6e; /* bubble yellow */;
+	-webkit-box-shadow: #212D45 16px 16px 16px;
+	-moz-box-shadow: #212D45 16px 16px 16px; 
+	box-shadow: #212D45 16px 16px 16px;	
+}
+
 .content_area_activity_chooser {
 	float: left;
 	padding-left: 10px;
@@ -214,6 +271,44 @@ aside {
 	padding-left: 20px;
 	vertical-align: middle;	
 }
+
+
+.activity_option {
+	border-style:groove;	
+	float: left;
+	margin-top: 5px;
+	margin-bottom: 00px;
+	margin-left: 50px;
+	padding: 0;
+	padding-top: 0px;
+	width:610px;	/*  This is content_area_bubble_wide width -100  */
+}
+
+.activity_option img {
+	margin: 0;
+	margin-top: -6px;
+	vertical-align: middle;	
+	padding: 0;	
+}
+
+
+.activity_checkbox {
+	float: left;	
+	text-align: center;
+	
+}
+
+.activity_checkbox img {
+	margin-top:5px;
+}
+
+.activity_details {
+	float: right;	
+	border-left: groove;
+	width: 550px; /*	this dirty hack is to stop stupid float issues - it is activity_option width - 60 */
+}
+
+
 
 /* ~~ The navigation list styles (can be removed if you choose to use a premade flyout menu like Spry) ~~ */
 nav ul {

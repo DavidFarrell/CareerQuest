@@ -124,23 +124,58 @@ class DatabaseUtility {
 		} else die ("Could not retrieve activity for activity_id $activity_id: " . mysql_error() . "<br>\n" . $sql);
 	}
 	
-	function get_all_player_weekly_activities($player_id) {
+	/* this should account for game id but I forgot to do so! */
+	function get_player_weekly_activities($player_id, $game_turn) {
 		if(!$this->db) {
 			db_connect();
 		}
 		$player_id = $this->db_escape($player_id) ;
+		$game_turn = $this->db_escape($game_turn) ;
+		
 		$activities = null;
-		$sql = "SELECT * FROM player_weekly_activities where player_id = ". $player_id ."  order by game_turn asc, activity_id asc";
+		$sql = "SELECT * FROM player_weekly_activities where player_id = ". $player_id ." and game_turn = ". $game_turn . " order by activity_id asc";
 		
 		$result = mysql_query($sql);
 	
 		if($row = mysql_fetch_array($result)) {
 			$activity_id = $row['activity_id'];
 			$current_activity = new Activity($activity_id);
+			$current_activity->activityChosen = $row['chosen'];
 			$activities[] =  $current_activity;
 			while ($row = mysql_fetch_array($result) ) {
 				$activity_id = $row['activity_id'];
 				$current_activity = new Activity($activity_id);
+				$current_activity->activityChosen = $row['chosen'];
+				$activities[] = $current_activity;
+			}
+			return $activities;
+		} else {
+			if ($GLOBALS['debug']) {
+				print "Could not retrieve weekly activities for player $player_id in week $game_turn: " . mysql_error() . "<br>\n" . $sql;
+			}
+			return null;
+		}
+	}
+	
+	function get_all_player_weekly_activities($player_id) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id) ;
+		$activities = null;
+		$sql = "SELECT * FROM player_weekly_activities where player_id = ". $player_id ."  order by game_turn asc, activity_id  asc";
+		
+		$result = mysql_query($sql);
+	
+		if($row = mysql_fetch_array($result)) {
+			$activity_id = $row['activity_id'];
+			$current_activity = new Activity($activity_id);
+			$current_activity->activityChosen = $row['chosen'];
+			$activities[] =  $current_activity;
+			while ($row = mysql_fetch_array($result) ) {
+				$activity_id = $row['activity_id'];
+				$current_activity = new Activity($activity_id);
+				$current_activity->activityChosen = $row['chosen'];
 				$activities[] = $current_activity;
 			}
 			return $activities;
@@ -153,6 +188,10 @@ class DatabaseUtility {
 	}
 	
 	
+	/*	this is prone to error if there are very few dilemmas that have not been picked for this person
+	 *  i.e. if the available set of numbers to randomly pick from is very small
+	 *	so when having more time, I should come back and put a proper algorithm in to methodically check for available numbers
+	 */
 	function pick_weekly_activities($player_id, $game_id) {
 		$activities = $this->db_load_activities();
 		$previous_activities = $this->get_all_player_weekly_activities($player_id);
@@ -222,6 +261,56 @@ class DatabaseUtility {
 				}
 			}
 		}
+	}
+	
+	/*	
+	 *	This updates the weekly activities with the player's choices.
+	 */
+	function update_weekly_activities($player_id, $game_id, $game_turn, $activities_chosen) {
+		if(!$this->db) {
+			db_connect();
+		}
+		
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		
+		$activities = $this->get_player_weekly_activities($player_id, $game_turn);
+		
+		foreach($activities as $key=>$currentActivity) {
+			if ( $activities_chosen[$currentActivity->activityId] == $currentActivity->activityId ) {
+				$sql =  "UPDATE  `career_quest`.`player_weekly_activities` SET  `chosen` =  '1' WHERE ".
+						"`player_weekly_activities`.`player_id` = ".$player_id."  AND ".
+						" `player_weekly_activities`.`activity_id` =".$currentActivity->activityId;
+				
+				
+				$result = mysql_query($sql);
+			
+				if(!$result) {
+					if ($GLOBALS['debug']) {
+						die ("Failed to insert into player_weekly_activities.\n$sql\n". mysql_error() );;
+					}
+				} else {
+					$this->db_log("Player_selected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId); 	
+				}
+			} else {
+				$sql =  "UPDATE  `career_quest`.`player_weekly_activities` SET  `chosen` =  '0' WHERE ".
+						"`player_weekly_activities`.`player_id` = ".$player_id."  AND ".
+						" `player_weekly_activities`.`activity_id` =".$currentActivity->activityId;
+				
+				
+				$result = mysql_query($sql);
+			
+				if(!$result) {
+					if ($GLOBALS['debug']) {
+						die("Failed to insert into player_weekly_activities.\n$sql\n". mysql_error());
+					}
+				} else {
+					$this->db_log("Player_deselected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId); 	
+				}
+			}
+		}
+		
 	}
 	
 	// returns an array populated by Dilemma objects
@@ -308,6 +397,12 @@ class DatabaseUtility {
 		}
 	}
 	
+	
+	
+	/*	this is prone to error if there are very few dilemmas that have not been picked for this person
+	 *  i.e. if the available set of numbers to randomly pick from is very small
+	 *	so when having more time, I should come back and put a proper algorithm in to methodically check for available numbers
+	 */
 	function pick_weekly_dilemmas($player_id, $game_id) {
 		$dilemmas = $this->db_load_dilemmas();
 		$previous_dilemmas = $this->get_all_player_weekly_dilemmas($player_id);
