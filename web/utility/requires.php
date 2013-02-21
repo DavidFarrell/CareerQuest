@@ -9,6 +9,7 @@ require_once("./utility/Dilemma.php");
 
 require_once("./utility/is_logged_in.php");
 
+
 $player = new Player($_SESSION['player_id']);
 $avatar = new Avatar($player->playerId);
 $game = new ArrayObject();

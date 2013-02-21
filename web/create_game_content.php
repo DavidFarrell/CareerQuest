@@ -7,27 +7,33 @@ require_once("./utility/requires.php");
 */
 
 /* step 2 - hardcode ids below and create avatars
-for ( $id = 23; $id <44; $id++) {
+
+for ( $id = 44; $id <75; $id++) {
+	print "before - id is " . $id;
 	$player = new Player($id);
+	
+	print "after 1 - id is " . $id;
+	
+	print "after 2 - id is " . $player->playerId;
 	$GLOBALS['databaseUtility']->create_avatar($player->playerId);
 } */
 
 
 /* step 3 - make activities for people for this week 
 
-for ( $id = 23; $id <44; $id++) {
+for ( $id = 44; $id <75; $id++) {
 	$player = new Player($id);
 	$GLOBALS['databaseUtility']->pick_weekly_activities($player->playerId, 0);
 }
 */
 
-/* step 4 - make dilemmas for people for this week */
+/* step 4 - make dilemmas for people for this week 
 
-for ( $id = 23; $id <44; $id++) {
+for ( $id = 44; $id <75; $id++) {
 	$player = new Player($id);
 	$GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 0);
 }
-
+*/
   
 //$GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 0);
 //$dilemma = new Dilemma(2);
@@ -40,8 +46,7 @@ $GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 2);
 $GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 3);
 */
 
-$activity = new Activity(2);
-
-print  "\n\n". $activity;
+//$activity = new Activity(2);
+//print  "\n\n". $activity;
 
 ?>

@@ -118,13 +118,31 @@ function submitForm() {
     
     <div class="activity_details">
     	<br />
-        <h3 class="fltlft"><a href=""><?php print $currentActivity->activityName; ?></a></h3>              
-        <p class="fltrt" >
-            +1 <img src="../assets/awareness_logo.png" width="26" height="26">
-            +5 <img src="../assets/ability_logo.png" width="26" height="26">
-            -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
-            -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
-        </p><br />
+        <h3 class="fltlft"><a href=""><?php print $currentActivity->activityName; ?></a></h3>  
+        <!-- now choose the level of scoring detail baseed on competence support -->  
+        <?php 
+		if ($player->competenceSupport == $higha) {?>
+			          
+			<p class="fltrt" >
+				<?php print $currentActivity->scoreWellness; ?> <img src="../assets/wellbeing_logo.png" width="39" height="39"> / 
+				( <?php print $currentActivity->scoreAwareness; ?> <img src="../assets/awareness_logo.png" width="20" height="20">
+				<?php print $currentActivity->scoreAbility; ?> <img src="../assets/ability_logo.png" width="20" height="20">
+				<?php print $currentActivity->scoreProfessionalism; ?> <img src="../assets/professionalism_logo.png" width="20" height="20">
+				<?php print $currentActivity->scoreWorkEthic; ?> <img src="../assets/work_ethic_logo.png" width="20" height="20"> ) = 
+                 <span style="text-decoration:underline">
+				 <?php print floor( ($currentActivity->scoreAwareness + $currentActivity->scoreAbility + $currentActivity->scoreProfessionalism + $currentActivity->scoreWorkEthic)/4 ); ?> <img src="../assets/employability_logo.png" width="39" height="39">
+                 </span>
+			</p><br />
+		<?php
+        } else if ($player->competenceSupport == $meda) {?>
+			          
+			<p class="fltrt" >
+				+1 <img src="../assets/wellbeing_logo.png" width="26" height="26"> / 
+                <?php print floor( ($currentActivity->scoreAwareness + $currentActivity->scoreAbility + $currentActivity->scoreProfessionalism + $currentActivity->scoreWorkEthic)/4 ); ?> <img src="../assets/employability_logo.png" width="26" height="26">
+			</p><br />
+		<?php
+        }
+		?>
         <p class="fltlft">
             <?php print $currentActivity->activityDescription; ?><br/>
             
@@ -152,14 +170,16 @@ function submitForm() {
     <div class="footer_bubble">
     	<h1 class="fltlft" style="padding: 0 0 0 15px;">My Goal:</h1>   
         <p class="fltlft" style="padding: 4px 0;">
-        	To get a trainee job at a game development company.
+        	Haven't thought about my goal!
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
-        <p class="fltlft" >
+        <p class="fltlft" >Feedback will appear here in due course.
+        <!--
         	+1 <img src="../assets/awareness_logo.png" width="26" height="26">
             +5 <img src="../assets/ability_logo.png" width="26" height="26">
             -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
             -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
+        -->
         </p><br/>
     </div>
     

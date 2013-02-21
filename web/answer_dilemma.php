@@ -148,14 +148,16 @@ function submitDilemmaOption(option_chosen) {
     <div class="footer_bubble">
     	<h1 class="fltlft" style="padding: 0 0 0 15px;">My Goal:</h1>   
         <p class="fltlft" style="padding: 4px 0;">
-        	To get a trainee job at a game development company.
+        		Haven't thought about my goal!
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
-        <p class="fltlft" >
+        <p class="fltlft" >Feedback will appear here in due course.
+        <!--
         	+1 <img src="../assets/awareness_logo.png" width="26" height="26">
             +5 <img src="../assets/ability_logo.png" width="26" height="26">
             -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
             -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
+        -->
         </p><br/>
     </div>
     

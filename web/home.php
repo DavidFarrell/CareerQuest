@@ -42,7 +42,7 @@ require_once("./utility/requires.php");
   </header>
   
   
-  <div class="sidebar_bubble" style="height:320px;">
+  <div class="sidebar_bubble" style="height:340px;">
       <div class="sidebar">
         <div class="avatar_sidebar" >
             <a href=""><img src="../avatars/dfavatar.png" width="73" height="73" id="avatar_image"></a>
@@ -51,37 +51,43 @@ require_once("./utility/requires.php");
         </div>
       
         <div class="sidebar_scores" id="employability_score">
-        	<a href="">
-                Employability: <?php print $avatar->scoreEmployability; ?>
-                <img src="../assets/employability_logo.png" width="26" height="26"><br/>
-			</a>
-            <a href="">
+        	 <a href="">
                 Wellbeing: <?php print $avatar->scoreWellbeing; ?>
-                <img src="../assets/wellbeing_logo.png" width="26" height="26">
+                <img src="../assets/wellbeing_logo.png" width="39" height="39">
 			</a>        	
-            <a href="">
-                Awareness: <?php print $avatar->scoreAwareness; ?>
-                <img src="../assets/awareness_logo.png" width="26" height="26"><br/>
-        	</a>
-            <a href="">
-                Ability: <?php print $avatar->scoreAbility; ?>
-                <img src="../assets/ability_logo.png" width="26" height="26"><br/>
-        	</a>
-			<a href="">
-                Professionalism: <?php print $avatar->scoreProfessionalism; ?>
-                <img src="../assets/professionalism_logo.png" width="26" height="26"><br/>
-        	</a>
-			<a href="">
-                Work Ethic: <?php print $avatar->scoreWorkEthic; ?>
-                <img src="../assets/work_ethic_logo.png" width="26" height="26">
-        	</a>
+           <a href="">
+                Employability: <?php print $avatar->scoreEmployability; ?>
+                <img src="../assets/employability_logo.png" width="39" height="39"><br/>
+			</a>
+            <?php
+			if ( $player->competenceSupport >= $meda ) {
+				?>
+				<a href="">
+					Awareness: <?php print $avatar->scoreAwareness; ?>
+					<img src="../assets/awareness_logo.png" width="26" height="26"><br/>
+				</a>
+				<a href="">
+					Ability: <?php print $avatar->scoreAbility; ?>
+					<img src="../assets/ability_logo.png" width="26" height="26"><br/>
+				</a>
+				<a href="">
+					Professionalism: <?php print $avatar->scoreProfessionalism; ?>
+					<img src="../assets/professionalism_logo.png" width="26" height="26"><br/>
+				</a>
+				<a href="">
+					Work Ethic: <?php print $avatar->scoreWorkEthic; ?>
+					<img src="../assets/work_ethic_logo.png" width="26" height="26">
+				</a>
+			<?php
+			}
+			?>
         </div>
       </div>
    </div>
   
   <article class="content">
     <section>
-     <div class="content_area_bubble" style="height:300px;">
+     <div class="content_area_bubble" style="height:320px;">
      	<div class="content_area_activity_chooser">
       	 	<h1><?php print $GLOBALS["homestrings"]["Weekly Options"][ ($player->autonomySupport)]; ?></h1>
             <H2><?php print $GLOBALS["homestrings"]["weekly_prompt"][ ($player->autonomySupport)]; ?></H2>
@@ -96,7 +102,7 @@ require_once("./utility/requires.php");
         	<h1><?php print $GLOBALS["homestrings"]["Daily_Options"][ ($player->autonomySupport)]; ?></h1>
             <H2><?php print $GLOBALS["homestrings"]["daily_prompt"][ ($player->autonomySupport)]; ?></H2>
             <ul>
-            	<li><a href=""><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
+            	<li><a href="daily1.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
             </ul>
         </div>
      </div>
@@ -111,14 +117,16 @@ require_once("./utility/requires.php");
     <div class="footer_bubble">
     	<h1 class="fltlft" style="padding: 0 0 0 15px;">My Goal:</h1>   
         <p class="fltlft" style="padding: 4px 0;">
-        	To get a trainee job at a game development company.
+        	Haven't thought about my goal!
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
-        <p class="fltlft" >
+        <p class="fltlft" >Feedback will appear here in due course.
+        <!--
         	+1 <img src="../assets/awareness_logo.png" width="26" height="26">
             +5 <img src="../assets/ability_logo.png" width="26" height="26">
             -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
             -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
+        -->
         </p><br/>
     </div>
     

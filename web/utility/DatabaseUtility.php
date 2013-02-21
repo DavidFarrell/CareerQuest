@@ -56,6 +56,7 @@ class DatabaseUtility {
 		if(!$this->db) {
 			db_connect();
 		}
+//		print "\n id is: ".$id;
 		//$this->db_log("LoadPlayer" , $id);
 		$id = $this->db_escape($id) ;
 		
@@ -80,7 +81,8 @@ class DatabaseUtility {
 		$result = mysql_query($sql);
 	
 		if($row = mysql_fetch_array($result)) {
-		  return $row;
+			$this->db_log("Player_Login", "p=".$email);		
+			return $row;
 		} else return null;
 	}
 	
