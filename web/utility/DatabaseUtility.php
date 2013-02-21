@@ -310,7 +310,6 @@ class DatabaseUtility {
 				}
 			}
 		}
-		
 	}
 	
 	// returns an array populated by Dilemma objects
@@ -368,7 +367,60 @@ class DatabaseUtility {
 	}
 	
 	
+	/* Dilemma - singular*/
+	function get_player_weekly_dilemmas($player_id, $game_id,$game_turn) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id) ;
+		$game_turn = $this->db_escape($game_turn) ;
+		$game_id = $this->db_escape($game_id) ;
+		
+		$sql = "SELECT * FROM player_weekly_dilemmas where player_id = ". $player_id ." and game_turn = ". $game_turn . " order by dilemma_id asc";
+		
+		$result = mysql_query($sql);
+	
+		if($row = mysql_fetch_array($result)) {
+			$dilemma_id = $row['dilemma_id'];
+			$dilemma = new Dilemma($dilemma_id);
+			// update the dilemma with player specific information
+			$dilemma->dilemmaOptionChosen = $row['dilemma_option_chosen'];
+			$dilemma->playerOptionChosen = $row['player_option_chosen'];
+			$dilemma->playerOptionId = $row['player_option_id'];
+			return $dilemma;
+		} else {
+			if ($GLOBALS['debug']) {
+				print "Could not retrieve dilemma for player $player_id in week $game_turn: " . mysql_error() . "<br>\n" . $sql;
+			}
+			return null;
+		}
+	}
 
+	function get_player_submitted_dilemma_description($player_id, $game_id,$game_turn, $dilemma_id) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id) ;
+		$game_turn = $this->db_escape($game_turn) ;
+		$game_id = $this->db_escape($game_id) ;
+		$dilemma_id = $this->db_escape($dilemma_id);
+		
+		$sql = "SELECT * FROM player_submitted_dilemma_solutions where player_id = ". $player_id .
+				" and dilemma_id = ". $dilemma_id . " order by dilemma_id asc";
+		
+		$result = mysql_query($sql);
+	
+		if($row = mysql_fetch_array($result)) {
+			$description = $row['solution_description'];
+			return $description;
+		} else {
+			if ($GLOBALS['debug']) {
+				print "Could not retrieve player dilemma submitted description: " . mysql_error() . "<br>\n" . $sql;
+			}
+			return null;
+		}
+	}
+	
 	function get_all_player_weekly_dilemmas($player_id) {
 		if(!$this->db) {
 			db_connect();
@@ -396,8 +448,6 @@ class DatabaseUtility {
 			return null;
 		}
 	}
-	
-	
 	
 	/*	this is prone to error if there are very few dilemmas that have not been picked for this person
 	 *  i.e. if the available set of numbers to randomly pick from is very small
@@ -474,5 +524,84 @@ class DatabaseUtility {
 		}
 	}
 	
+	
+	/*	
+	 *	This updates the weekly dilemma with the player's choice.
+	 */
+	function update_weekly_dilemma($player_id, $game_id, $game_turn, $dilemma_options) {
+		if(!$this->db) {
+			db_connect();
+		}
+		
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		
+		$dilemma = $this->get_player_weekly_dilemmas($player_id, $game_id, $game_turn);
+		
+		if ( $dilemma_options["option_submitted"] != $GLOBALS['player_choice_dilemma'] ) {
+			$sql =  "UPDATE  `career_quest`.`player_weekly_dilemmas` SET  `dilemma_option_chosen` =  '".  
+					$dilemma_options["option_submitted"] ."' WHERE  `player_weekly_dilemmas`.`player_id` = ".
+					$player_id ." AND  `player_weekly_dilemmas`.`dilemma_id` = ". $dilemma->dilemmaId .
+					" AND game_turn = " . $game_turn;
+		
+			$result = mysql_query($sql);
+			if(!$result) {
+				if ($GLOBALS['debug']) {
+					die ("Failed to update weekly dilemma.\n$sql\n". mysql_error() );;
+				}
+			} else {
+				$this->db_log("Player_selected_weekly_dilemma_option","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". $dilemma_options["option_submitted"] ); 	
+			}
+		} else {
+			// player has submitted their own response
+			$player_text = $this->db_escape($dilemma_options["player_text"] );
+			
+			// first insert player option into DB
+			$sql =  "replace INTO  `career_quest`.`player_submitted_dilemma_solutions` (
+					`dilemma_id` ,
+					`player_id` ,
+					`solution_scored` ,
+					`solution_description` ,
+					`score_wellness` ,
+					`score_awareness` ,
+					`score_ability` ,
+					`score_professionalism` ,
+					`score_work_ethic` ,
+					`solution_feedback`
+					)
+					VALUES (
+					'".$dilemma->dilemmaId."',  '".$player_id."',  '0',  '".$player_text."', NULL , NULL , NULL , NULL , NULL , NULL
+					);";
+		
+			$result = mysql_query($sql);
+			if(!$result) {
+				if ($GLOBALS['debug']) {
+					die ("Failed to save player option.\n$sql\n". mysql_error() );;
+				}
+			} else {
+				$player_option_id =  mysql_insert_id();
+			
+				$this->db_log("Player_submitted_dilemma_option_saved","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". player_option_id ."|optionSubmitted = ".$player_text); 	
+			}	
+			
+			
+			// now update weekly dilemma record
+			$sql =  "UPDATE  `career_quest`.`player_weekly_dilemmas` SET  `dilemma_option_chosen` =  null, ".
+					" `player_option_chosen` = 1 ".
+					" WHERE  `player_weekly_dilemmas`.`player_id` = ".
+					$player_id ." AND  `player_weekly_dilemmas`.`dilemma_id` = ". $dilemma->dilemmaId .
+					" AND game_turn = " . $game_turn;
+		
+			$result = mysql_query($sql);
+			if(!$result) {
+				if ($GLOBALS['debug']) {
+					die ("Failed to update weekly dilemma.\n$sql\n". mysql_error() );;
+				}
+			} else {
+				$this->db_log("Player_selected_weekly_dilemma_option","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". $dilemma_options["option_submitted"] ); 	
+			}	
+		}
+	}
 }
 ?>

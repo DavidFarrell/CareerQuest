@@ -7,11 +7,15 @@ require_once("./utility/requires.php");
 
 $weekly_activities = $GLOBALS['databaseUtility']->get_player_weekly_activities( $player->playerId, 0 );
 
+$hasMadeChoices = false;
 // if player has previously submitted options, reduce score.
 foreach($weekly_activities as $key=>$currentActivity) {
 	if ($currentActivity->activityChosen) {
 		$avatar->weeklyTimeUnitsCurrent -= $currentActivity->activityCost;	
 	}
+}
+if ( $avatar->weeklyTimeUnitsCurrent <= 0 ) {
+	$hasMadeChoices = true;	
 }
 
 ?>
@@ -44,7 +48,7 @@ function submitForm() {
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Career Quest Hub</title>
+<title>Career Quest: Fortnightly Planner</title>
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
         </script>
@@ -85,9 +89,14 @@ function submitForm() {
             <!-- PICK TASKS FOR NEXT FORTNIGHT -->
            <h1><?php print $GLOBALS["weeklystrings"]["Title"][ ($player->autonomySupport)]; ?></h1>
             <!-- YOU HAVE 4 TIME UNITS -->
-            <h2 style="float:left"><?php print $GLOBALS["weeklystrings"]["Instructions_beginning"][ ($player->autonomySupport)];?><section class='action_orange' id="time_units";><?php print $avatar->weeklyTimeUnitsCurrent;?></section><?php print $GLOBALS["weeklystrings"]["Instructions_end"][ ($player->autonomySupport)]; ?></h2>
-            <a onclick="submitForm();"><h2 ><span class="save_changes">Save Choices</span></h2></a>
-		
+            <?php if (!$hasMadeChoices) {
+			?>
+            	<h2 style="float:left"><?php print $GLOBALS["weeklystrings"]["Instructions_beginning"][ ($player->autonomySupport)];?><section class='action_orange' id="time_units";><?php print $avatar->weeklyTimeUnitsCurrent;?></section><?php print $GLOBALS["weeklystrings"]["Instructions_end"][ ($player->autonomySupport)]; ?></h2>
+            
+	            <a href="" onclick="submitForm(); return false;"><h2 ><span class="save_changes">Save Choices</span></h2></a>
+			<?php
+			}
+			?>	
         	<div id="error_message">
             	<!-- filled by JS -->
             </div>
@@ -99,7 +108,7 @@ function submitForm() {
 <div class="activity_option">
     <div class="activity_checkbox">
     	<br />
-        &nbsp;&nbsp;<input type="checkbox" onchange='toggleWeeklyActivity(this);' name="<?php print $currentActivity->activityId; ?>" value="<?php print $currentActivity->activityId; ?>" 
+        &nbsp;&nbsp;<input type="checkbox" <?php  if ($hasMadeChoices) print 'disabled="true"'; ?> onchange='toggleWeeklyActivity(this);' name="<?php print $currentActivity->activityId; ?>" value="<?php print $currentActivity->activityId; ?>" 
 		<?php if ($currentActivity->activityChosen) {
 			print "checked";
 		} else print ""; ?>/>	
@@ -109,7 +118,7 @@ function submitForm() {
     
     <div class="activity_details">
     	<br />
-        <h3 class="fltlft"><a href=""><?php print $currentActivity->activityName; ?></a> (<?php print $currentActivity->activityId; ?>)</h3>              
+        <h3 class="fltlft"><a href=""><?php print $currentActivity->activityName; ?></a></h3>              
         <p class="fltrt" >
             +1 <img src="../assets/awareness_logo.png" width="26" height="26">
             +5 <img src="../assets/ability_logo.png" width="26" height="26">

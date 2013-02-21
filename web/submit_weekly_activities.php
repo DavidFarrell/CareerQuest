@@ -6,4 +6,5 @@ require_once("./utility/requires.php");
 	
 $GLOBALS['databaseUtility']->update_weekly_activities($player->playerId, $game->gameId, $game->gameTurn, $_POST);
 
+header('Location: choose_weekly_activities.php');
 ?>

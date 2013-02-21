@@ -81,7 +81,7 @@ a:link {
 }
 a:visited {
 	color: #ff672f;
-	text-decoration: none;
+	text-decoration: underline;
 }
 a:hover, a:active, a:focus { /* this group of selectors will give a keyboard navigator the same hover experience as the person using a mouse. */
 	text-decoration: underline;
@@ -308,6 +308,51 @@ aside {
 	width: 550px; /*	this dirty hack is to stop stupid float issues - it is activity_option width - 60 */
 }
 
+
+.dilemma_area {	
+	float: left;
+	text-align:justify;
+	margin-top: 5px;
+	margin-bottom: 00px;
+	margin-left: 50px;
+	padding: 0;
+	padding-top: 0px;
+	width:610px;	/*  This is content_area_bubble_wide width -100  */
+}
+
+.dilemma_options {	
+	float: left;
+	text-align:justify;
+	margin-top: 5px;
+	margin-bottom: 00px;
+	margin-left: 20px;
+	padding: 0;
+	padding-top: 0px;
+	width:610px;	/*  This is content_area_bubble_wide width -100  */
+}
+
+.dilemma_options h2 {
+	margin: 0;
+	margin-top: 10px;
+	padding: 0;
+	color: #ff672f;
+}
+
+.dilemma_option_area {
+	border-style:none;	
+	float: left;
+	margin-top: 5px;
+	margin-bottom: 00px;
+	margin-left: 00px;
+	padding: 0;
+	padding-top: 0px;
+	width:560px;	/*  This is dilemma_area width -50  */
+}
+
+.dilemma_option_area content {
+	float:left;
+	width: 400px;
+}
 
 
 /* ~~ The navigation list styles (can be removed if you choose to use a premade flyout menu like Spry) ~~ */

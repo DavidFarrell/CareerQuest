@@ -19,6 +19,7 @@ $GLOBALS['relatedness_support']['low'] = 0;
 $GLOBALS['relatedness_support']['medium'] = 1;
 $GLOBALS['relatedness_support']['high'] = 2;
 
+$GLOBALS['player_choice_dilemma'] = 99;
 
 // for ease of typing
 $lowa = $GLOBALS['autonomy_support']['low'];
@@ -68,10 +69,19 @@ $GLOBALS["weeklystrings"]["Title"][$higha] = "How would you like to spend your t
 $GLOBALS["weeklystrings"]["Instructions_beginning"][$lowa] = "You have ";
 $GLOBALS["weeklystrings"]["Instructions_beginning"][$meda] = "You have ";
 $GLOBALS["weeklystrings"]["Instructions_beginning"][$higha] = "Choose how you would like to spend your ";
-
 $GLOBALS["weeklystrings"]["Instructions_end"][$lowa] = " time units you must spend.";
 $GLOBALS["weeklystrings"]["Instructions_end"][$meda] = " time units to spend";
 $GLOBALS["weeklystrings"]["Instructions_end"][$higha] = " time units.";
+
+// Dilemma Page Strings
+$GLOBALS["dilemmastrings"]["Title"][$lowa] = "You must choose how to respond.";
+$GLOBALS["dilemmastrings"]["Title"][$meda] = "Answer Dilemma";
+$GLOBALS["dilemmastrings"]["Title"][$higha] = "Weigh in with your opinion.";
+
+$GLOBALS["dilemmastrings"]["placeholder"][$higha] = "Have a better idea?                                                                                                                           Tell us what you do and Careers Advisor Beverly Gardiner will give you your own unique score and feedback!";
+$GLOBALS["dilemmastrings"]["placeholder"][$meda] = "Have a better idea?                                                                                                                           Tell us what you do and get your own unique score.";
+
+
 
  
 ?>

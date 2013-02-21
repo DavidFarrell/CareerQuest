@@ -81,11 +81,13 @@ require_once("./utility/requires.php");
     <section>
      <div class="content_area_bubble" style="height:300px;">
      	<div class="content_area_activity_chooser">
-        	<h1><?php print $GLOBALS["homestrings"]["Weekly Options"][ ($player->autonomySupport)]; ?></h1>
+      	 	<h1><?php print $GLOBALS["homestrings"]["Weekly Options"][ ($player->autonomySupport)]; ?></h1>
             <H2><?php print $GLOBALS["homestrings"]["weekly_prompt"][ ($player->autonomySupport)]; ?></H2>
-            <ul>
-            	<li><a href="choose_weekly_activities.php"><?php print $GLOBALS["homestrings"]["plan_activities"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_week_logo.png" width="51" height="52"></a></li>
-                <li><a href=""><?php print $GLOBALS["homestrings"]["plan_dilemmas"][ ($player->autonomySupport)]; ?> <img src="../assets/dilemma_logo.png" width="52" height="52"></li></a>
+            <ul> 
+            	<!-- Plan your week -->
+     			<li><a href="choose_weekly_activities.php"><?php print $GLOBALS["homestrings"]["plan_activities"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_week_logo.png" width="51" height="52"></a></li>
+                <!-- Dilemma! -->
+     			<li><a href="answer_dilemma.php"><?php print $GLOBALS["homestrings"]["plan_dilemmas"][ ($player->autonomySupport)]; ?> <img src="../assets/dilemma_logo.png" width="52" height="52"></li></a>
             </ul>
         </div>
         <div class="content_area_activity_chooser">

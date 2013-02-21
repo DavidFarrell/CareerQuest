@@ -9,6 +9,10 @@ class Dilemma {
 	//this one is an array of DilemmaOption items
 	public $dilemmaOptions;
 	
+	public $dilemmaOptionChosen;
+	public $playerOptionChosen;
+	public $playerOptionId;
+	
 	function __construct($id = "") {
 		if ( !($id == null && $dilemma_array == null) ) {
 			$this->loadDilemma($id);	
@@ -31,8 +35,11 @@ class Dilemma {
 		$options = $GLOBALS['databaseUtility']->db_load_dilemma_options($id);	
 		foreach ($options as $key=>$option_array) {
 			$option = new DilemmaOption($option_array);	
-			$this->dilemmaOptions[] = $option;
+			$this->dilemmaOptions[$option->optionId] = $option;
 		}
+		
+		$this->playerOptionChosen = 0;
+		$this->dilemmaOptionChosen = 0;	
 		
 	}
 	
