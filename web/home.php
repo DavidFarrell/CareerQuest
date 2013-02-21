@@ -1,6 +1,8 @@
 <?php
-
 require_once("./utility/requires.php");
+
+//$player = new Player($player->playerId);
+
 ?>
 
 <!DOCTYPE HTML>
@@ -124,3 +126,6 @@ require_once("./utility/requires.php");
   <!-- end .container --></div>
 </body>
 </html>
+<?php
+//tidyUp();
+?>

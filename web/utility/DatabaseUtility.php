@@ -68,6 +68,22 @@ class DatabaseUtility {
 		} else die ("Could not retrieve person: " . mysql_error() . "<br>" . $sql);
 	}
 	
+	function db_check_login($login_details) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$email = $this->db_escape($login_details['email']) ;
+		$password = $this->db_escape($login_details['password']) ;
+		
+		$sql = "SELECT * FROM players where email = '" . $email ."' and password = '".$password."'";
+		
+		$result = mysql_query($sql);
+	
+		if($row = mysql_fetch_array($result)) {
+		  return $row;
+		} else return null;
+	}
+	
 	function db_load_current_avatar($player_id) {
 		if(!$this->db) {
 			db_connect();
