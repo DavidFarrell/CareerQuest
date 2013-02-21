@@ -84,6 +84,43 @@ class DatabaseUtility {
 		} else return null;
 	}
 	
+	
+	
+	function create_avatar($player_id) {
+		$player = new Player($player_id);
+		
+		$sql = "INSERT INTO  `career_quest`.`avatars` (
+				`player_id` ,
+				`is_current_avatar` ,
+				`avatar_image_url` ,
+				`avatar_name` ,
+				`avatar_gender` ,
+				`player_choice` ,
+				`score_wellbeing` ,
+				`score_awareness` ,
+				`score_ability` ,
+				`score_professionalism` ,
+				`score_work_ethic` ,
+				`weekly_time_units_current` ,
+				`weekly_time_units_base` ,
+				`weekly_time_units_buff` ,
+				`daily_time_units_current` ,
+				`daily_time_units_base` ,
+				`daily_time_units_buff` ,
+				`last_modified`
+				)
+				VALUES (
+				  '".$player_id."',  '1',  'dfavatar.png',  '".$player->forename . $player->surname ."',  '0',  '1',  ".
+				  "'5',  '3',  '3',  '3',  '3',  '4',  '4',  '0',  '1',  '1',  '0', 
+				CURRENT_TIMESTAMP
+				);";
+				
+		$result = mysql_query($sql);
+		if (!$result) {
+			die(mysql_error());	
+		}
+	}
+	
 	function db_load_current_avatar($player_id) {
 		if(!$this->db) {
 			db_connect();
@@ -208,6 +245,7 @@ class DatabaseUtility {
 	 *  i.e. if the available set of numbers to randomly pick from is very small
 	 *	so when having more time, I should come back and put a proper algorithm in to methodically check for available numbers
 	 */
+	 /* MISTAKE - I SAY GAME ID HERE WHEN I AM REFRRING TO GAME TURM */
 	function pick_weekly_activities($player_id, $game_id) {
 		$activities = $this->db_load_activities();
 		$previous_activities = $this->get_all_player_weekly_activities($player_id);
