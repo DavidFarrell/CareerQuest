@@ -75,7 +75,9 @@ function submitForm() {
 
   	<div class="header_score">
 		<?php print $avatar->scoreEmployability; ?>
-        <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
+        <a href="logout.php">
+      	  <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
+        </a>
     </div>
 	
   </header>
@@ -144,9 +146,15 @@ function submitForm() {
         }
 		?>
         <p class="fltlft">
-            <?php print $currentActivity->activityDescription; ?><br/>
+            <?php print ucfirst($currentActivity->activityDescription); ?><br/>
             
-            	<?php print $currentActivity->activityDetails; ?>
+            
+            	<?php 
+				// only high competence feedbackers get the nitty gritty
+				if ($player->competenceSupport == $higha) {
+					print "<br>".ucfirst($currentActivity->activityDetails); 
+				}
+				?>
         	
         </p>
     </div><!-- end div activity details -->

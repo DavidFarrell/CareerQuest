@@ -52,7 +52,9 @@ function submitDilemmaOption(option_chosen) {
 
   	<div class="header_score">
 		<?php print $avatar->scoreEmployability; ?>
-        <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
+         <a href="logout.php">
+      	  <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
+          </a>
     </div>
 	
   </header>

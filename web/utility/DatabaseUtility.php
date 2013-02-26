@@ -3,12 +3,6 @@
 require_once ("./utility/database_config.php");
 class DatabaseUtility {
 	public $db;
-	
-	private $MYSQL_HOST = "localhost";
-	private $MYSQL_PORT = "8889";
-	private $MYSQL_DATABASE = "career_quest";
-	private $MYSQL_USER = "root";
-	private $MYSQL_PASSWORD = "root";
 
 	function __construct() {
 		$this->db_connect();
@@ -20,11 +14,23 @@ class DatabaseUtility {
 	}
 
 	function db_connect() {
-		$this->db = mysql_connect($this->MYSQL_HOST, $this->MYSQL_USER, $this->MYSQL_PASSWORD);
+	
+	$hostname = $GLOBALS['MYSQL_HOST'];
+	$port = $GLOBALS['MYSQL_PORT'];
+	$username= $GLOBALS['MYSQL_USER'];
+	$password = $GLOBALS['MYSQL_PASSWORD'];
+	$database = $GLOBALS['MYSQL_DATABASE'];
+
+
+//$link = mysql_connect($hostname,$username,$password);
+//mysql_select_db($database) or die("Unable to select database");
+		$this->db = mysql_connect($hostname,$username,$password);
+		//mysql_connect($this->MYSQL_HOST, $this->MYSQL_USER, $this->MYSQL_PASSWORD);
+		
 		if (!$this->db) {
 			die ('Could not connect to database host: ' . mysql_error());
 		} else {
-			$db_selected = mysql_select_db($this->MYSQL_DATABASE, $this->db);
+			$db_selected = mysql_select_db($database, $this->db);
 			if (!$db_selected) {
 				die ("Can't connect to database: " . mysql_error());
 			} else {
@@ -335,7 +341,7 @@ class DatabaseUtility {
 		
 		foreach($activities as $key=>$currentActivity) {
 			if ( $activities_chosen[$currentActivity->activityId] == $currentActivity->activityId ) {
-				$sql =  "UPDATE  `career_quest`.`player_weekly_activities` SET  `chosen` =  '1' WHERE ".
+				$sql =  "UPDATE  `player_weekly_activities` SET  `chosen` =  '1' WHERE ".
 						"`player_weekly_activities`.`player_id` = ".$player_id."  AND ".
 						" `player_weekly_activities`.`activity_id` =".$currentActivity->activityId;
 				
@@ -350,7 +356,7 @@ class DatabaseUtility {
 					$this->db_log("Player_selected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId); 	
 				}
 			} else {
-				$sql =  "UPDATE  `career_quest`.`player_weekly_activities` SET  `chosen` =  '0' WHERE ".
+				$sql =  "UPDATE  `player_weekly_activities` SET  `chosen` =  '0' WHERE ".
 						"`player_weekly_activities`.`player_id` = ".$player_id."  AND ".
 						" `player_weekly_activities`.`activity_id` =".$currentActivity->activityId;
 				

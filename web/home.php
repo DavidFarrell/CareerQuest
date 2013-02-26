@@ -31,12 +31,14 @@ require_once("./utility/requires.php");
         </a>
     </div>
     <div class="graduation">
-    	<p><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: 8 Weeks</p>
+    	<p><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: 8 Weeks.</p>
     </div>
 
   	<div class="header_score">
 		<?php print $avatar->scoreEmployability; ?>
-        <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
+         <a href="logout.php">
+      	  <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
+          </a>
     </div>
 	
   </header>
