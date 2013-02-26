@@ -266,7 +266,7 @@ class DatabaseUtility {
 		// chosen items represents the items selected in this function - it contains activity ids, not Activities.
 		$chosen_items = null;
 		
-		while ($time_units > 0) {
+		while ($time_units >= 0) {
 				
 			if ( $random_activity_index == null || $has_been_picked ) {
 				$random_activity_index = rand(0, (sizeof($activities)-1));

@@ -5,7 +5,7 @@ $GLOBALS['MYSQL_DATABASE'] = "career_quest";
 $GLOBALS['MYSQL_USER'] = "root";
 $GLOBALS['MYSQL_PASSWORD'] = "root";
 
-if (true) { 
+if (false) { 
 
 $GLOBALS['MYSQL_HOST'] = "mysql.davidlearnsgames.com";
 $GLOBALS['MYSQL_PORT'] = "8889";
