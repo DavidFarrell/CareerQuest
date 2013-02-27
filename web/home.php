@@ -1,7 +1,8 @@
 <?php
 require_once("./utility/requires.php");
 
-//$player = new Player($player->playerId);
+
+$GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $player->playerId, $player->playerId, $game->gameId);
 
 ?>
 

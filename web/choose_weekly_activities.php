@@ -2,6 +2,7 @@
 
 require_once("./utility/requires.php");
 
+
 //css id "view_time_units" is current remaining TUs
 // just now game turn id is hardcoded 
 
@@ -17,6 +18,9 @@ foreach($weekly_activities as $key=>$currentActivity) {
 if ( $avatar->weeklyTimeUnitsCurrent <= 0 ) {
 	$hasMadeChoices = true;	
 }
+
+
+$GLOBALS['databaseUtility']->db_log("Player_Looked_At_Weeklies", "p = " . $player->playerId . "|Completed_choices = " . $hasMadeChoices, $player->playerId, $game->gameId);
 
 ?>
 

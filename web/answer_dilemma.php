@@ -9,6 +9,10 @@ if ( $dilemma->dilemmaOptionChosen != null || $dilemma->playerOptionChosen !=nul
 	$dilemmaHasBeenDecided = true;
 }
 
+
+$GLOBALS['databaseUtility']->db_log("Player_Looked_At_Dilemmas", "p = " . $player->playerId . "|Answered_Dilemma = " . $dilemmaHasBeenDecided, $player->playerId, $game->gameId);
+
+
 ?>
 <!-- <?php print_r($dilemma); ?> -->
 <!DOCTYPE HTML>

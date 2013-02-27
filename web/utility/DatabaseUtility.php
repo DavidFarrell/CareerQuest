@@ -44,14 +44,14 @@ class DatabaseUtility {
 		mysql_close($this->db);	
 	}
 	
-	function db_log($type, $params) {
+	function db_log($type, $params, $player_id=null, $game_id=null) {
 		if (!$this->db) {
 			db_connect();
 		}
 		
-		$sql="INSERT INTO game_log (event_type, event_params)
+		$sql="INSERT INTO game_log (event_type, event_params, player_id, game_id)
 		VALUES
-		('".$type."','".$params."')";
+		('".$type."','".$params."', '".$player_id."', '".$game_id."')";
 		
 		if (!mysql_query($sql,$this->db)) {
 			die('Error: ' . mysql_error() . '<br>' . $sql . "<br>" . $this->db);
@@ -97,7 +97,7 @@ class DatabaseUtility {
 	function create_avatar($player_id) {
 		$player = new Player($player_id);
 		
-		$sql = "INSERT INTO  `career_quest`.`avatars` (
+		$sql = "INSERT INTO  `avatars` (
 				`player_id` ,
 				`is_current_avatar` ,
 				`avatar_image_url` ,
@@ -353,7 +353,7 @@ class DatabaseUtility {
 						die ("Failed to insert into player_weekly_activities.\n$sql\n". mysql_error() );;
 					}
 				} else {
-					$this->db_log("Player_selected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId); 	
+					$this->db_log("Player_selected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId, $player_id, $game_id); 	
 				}
 			} else {
 				$sql =  "UPDATE  `player_weekly_activities` SET  `chosen` =  '0' WHERE ".
@@ -368,7 +368,7 @@ class DatabaseUtility {
 						die("Failed to insert into player_weekly_activities.\n$sql\n". mysql_error());
 					}
 				} else {
-					$this->db_log("Player_deselected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId); 	
+					$this->db_log("Player_deselected_weekly_activity","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|ai = ". $currentActivity->activityId, $player_id, $game_id); 	
 				}
 			}
 		}
@@ -602,7 +602,7 @@ class DatabaseUtility {
 		$dilemma = $this->get_player_weekly_dilemmas($player_id, $game_id, $game_turn);
 		
 		if ( $dilemma_options["option_submitted"] != $GLOBALS['player_choice_dilemma'] ) {
-			$sql =  "UPDATE  `career_quest`.`player_weekly_dilemmas` SET  `dilemma_option_chosen` =  '".  
+			$sql =  "UPDATE  `player_weekly_dilemmas` SET  `dilemma_option_chosen` =  '".  
 					$dilemma_options["option_submitted"] ."' WHERE  `player_weekly_dilemmas`.`player_id` = ".
 					$player_id ." AND  `player_weekly_dilemmas`.`dilemma_id` = ". $dilemma->dilemmaId .
 					" AND game_turn = " . $game_turn;
@@ -613,14 +613,14 @@ class DatabaseUtility {
 					die ("Failed to update weekly dilemma.\n$sql\n". mysql_error() );;
 				}
 			} else {
-				$this->db_log("Player_selected_weekly_dilemma_option","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". $dilemma_options["option_submitted"] ); 	
+				$this->db_log("Player_selected_weekly_dilemma_option","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". $dilemma_options["option_submitted"], $player_id, $game_id ); 	
 			}
 		} else {
 			// player has submitted their own response
 			$player_text = $this->db_escape($dilemma_options["player_text"] );
 			
 			// first insert player option into DB
-			$sql =  "replace INTO  `career_quest`.`player_submitted_dilemma_solutions` (
+			$sql =  "replace INTO  `player_submitted_dilemma_solutions` (
 					`dilemma_id` ,
 					`player_id` ,
 					`solution_scored` ,
@@ -644,12 +644,12 @@ class DatabaseUtility {
 			} else {
 				$player_option_id =  mysql_insert_id();
 			
-				$this->db_log("Player_submitted_dilemma_option_saved","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". player_option_id ."|optionSubmitted = ".$player_text); 	
+				$this->db_log("Player_submitted_dilemma_option_saved","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". player_option_id ."|optionSubmitted = ".$player_text, $player_id, $game_id); 	
 			}	
 			
 			
 			// now update weekly dilemma record
-			$sql =  "UPDATE  `career_quest`.`player_weekly_dilemmas` SET  `dilemma_option_chosen` =  null, ".
+			$sql =  "UPDATE  `player_weekly_dilemmas` SET  `dilemma_option_chosen` =  null, ".
 					" `player_option_chosen` = 1 ".
 					" WHERE  `player_weekly_dilemmas`.`player_id` = ".
 					$player_id ." AND  `player_weekly_dilemmas`.`dilemma_id` = ". $dilemma->dilemmaId .
@@ -661,7 +661,7 @@ class DatabaseUtility {
 					die ("Failed to update weekly dilemma.\n$sql\n". mysql_error() );;
 				}
 			} else {
-				$this->db_log("Player_selected_weekly_dilemma_option","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". $dilemma_options["option_submitted"] ); 	
+				$this->db_log("Player_selected_weekly_dilemma_option","p = " . $player_id . "|gi = ".$game_id."|gt = ".$game_turn."|dId = ". $dilemma->dilemmaId."|opId = ". $dilemma_options["option_submitted"], $player_id, $game_id ); 	
 			}	
 		}
 	}

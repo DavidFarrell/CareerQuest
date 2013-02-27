@@ -1,4 +1,11 @@
 <?php
+
+require_once("./utility/requires.php");
+
+
+
+$GLOBALS['databaseUtility']->db_log("Player_Looked_At_Daily_Option", "p = " . $player->playerId, $player->playerId, $game->gameId);
+
 ?>
 <!DOCTYPE HTML>
 <html>
