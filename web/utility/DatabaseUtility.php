@@ -49,13 +49,29 @@ class DatabaseUtility {
 			db_connect();
 		}
 		
-		$sql="INSERT INTO game_log (event_type, event_params, player_id, game_id)
+		$sql="INSERT INTO game_log (event_type, event_params, player_id, game_id, ip, agent)
 		VALUES
-		('".$type."','".$params."', '".$player_id."', '".$game_id."')";
+		('".$type."','".$params."', '".$player_id."', '".$game_id."', '".$_SERVER['REMOTE_ADDR']."', '".$this->db_escape($_SERVER['HTTP_USER_AGENT'])."')";
 		
 		if (!mysql_query($sql,$this->db)) {
 			die('Error: ' . mysql_error() . '<br>' . $sql . "<br>" . $this->db);
 		}
+	}
+	
+	// returns array filled with player objects
+	function db_load_all_players() {
+		if(!$this->db) {
+			db_connect();
+		}
+		
+		$sql = "SELECT * FROM players ORDER BY player_id asc";
+		
+		$result = mysql_query($sql);
+		while($row = mysql_fetch_array($result)) {
+		  $players[] = new Player($row['player_id']);
+		} 
+		
+		return $players;
 	}
 	
 	function db_load_player($id) {
@@ -145,7 +161,7 @@ class DatabaseUtility {
 	}
 	
 	function db_escape($var) {
-		
+		$var = mysql_real_escape_string($var);
 		return $var;	
 	}
 	
@@ -601,6 +617,7 @@ class DatabaseUtility {
 		
 		$dilemma = $this->get_player_weekly_dilemmas($player_id, $game_id, $game_turn);
 		
+		// is it a normal submission and not a "user generated" submission?
 		if ( $dilemma_options["option_submitted"] != $GLOBALS['player_choice_dilemma'] ) {
 			$sql =  "UPDATE  `player_weekly_dilemmas` SET  `dilemma_option_chosen` =  '".  
 					$dilemma_options["option_submitted"] ."' WHERE  `player_weekly_dilemmas`.`player_id` = ".
@@ -617,6 +634,15 @@ class DatabaseUtility {
 			}
 		} else {
 			// player has submitted their own response
+			try {
+				$player = new Player($player_id);
+				mail("davidfarrell81@gmail.com", "CareerQuest - Dilemma(".$dilemma->dilemmaId.") Answer from ". $player->forename. " " . $player->surname, $player_text);
+	
+			} catch (Exception $e) {
+				$this->db_log("Exception", $e, $player_id, $game_id);	
+			}
+			
+			
 			$player_text = $this->db_escape($dilemma_options["player_text"] );
 			
 			// first insert player option into DB

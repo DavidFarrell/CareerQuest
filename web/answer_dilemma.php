@@ -93,8 +93,8 @@ function submitDilemmaOption(option_chosen) {
 						?>
                         <div class="dilemma_option_area">
 								<content>
-									<?php print ucfirst($option->optionDescription); ?>
-                                	<br/>
+									<?php print nl2br(htmlspecialchars(ucfirst($option->optionDescription))); ?>
+                                	<br/>&nbsp;<br/><hr>
                                     You will hear in due course how you have been scored.
                                 </content>	
 								

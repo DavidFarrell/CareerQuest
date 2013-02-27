@@ -14,6 +14,7 @@ class Player {
 	public $notes;
 	public $experimentOptOut;
 	public $gameId;
+	public $goal;
 	public $timeCreated;
 	
 	function __construct($id = "") {
@@ -38,6 +39,7 @@ class Player {
 			$this->notes = $player_array['notes'];
 			$this->experimentOptOut = $player_array['experiment_opt_out'];
 			$this->gameId = $player_array['game_id'];
+			$this->goal = $player_array['goal'];
 			$this->timeCreated = $player_array['time_created'];
 		}
 	}
@@ -55,6 +57,7 @@ class Player {
 		$returnString .= "	notes=[".$this->notes."]\n";
 		$returnString .= "	experimentOptOut=[".$this->experimentOptOut."]\n";
 		$returnString .= "	gameId=[".$this->gameId."]\n";
+		$returnString .= "	goal=[".$this->goal."]\n";
 		$returnString .= "	timeCreated=[".$this->timeCreated."]\n";
 		$returnString .="		//end Player]";
 		

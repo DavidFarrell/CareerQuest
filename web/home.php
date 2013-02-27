@@ -48,8 +48,8 @@ $GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $pl
   <div class="sidebar_bubble" style="height:340px;">
       <div class="sidebar">
         <div class="avatar_sidebar" >
-            <a href=""><img src="../avatars/dfavatar.png" width="73" height="73" id="avatar_image"></a>
-           <br/><?php print $avatar->avatarName; ?>
+            <a href=""><img src="../avatars/<?php print $avatar->avatarImageURL; ?>" width="73" height="73" id="avatar_image"></a>
+           <br/><?php print htmlspecialchars($avatar->avatarName); ?>
            <br>Level 1: Jobseeker
         </div>
       
@@ -120,7 +120,9 @@ $GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $pl
     <div class="footer_bubble">
     	<h1 class="fltlft" style="padding: 0 0 0 15px;">My Goal:</h1>   
         <p class="fltlft" style="padding: 4px 0;">
-        	Haven't thought about my goal!
+        	<?php
+				print ucfirst(nl2br(htmlspecialchars($player->goal)));				
+			?>
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
         <p class="fltlft" >Feedback will appear here in due course.

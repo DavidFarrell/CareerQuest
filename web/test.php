@@ -1,5 +1,5 @@
 <?php
-print "d";
+/*
 
 $hostname = "mysql.davidlearnsgames.com";
 $username = "dfarrell";
@@ -23,6 +23,10 @@ $db = mysql_connect($hostname,$username,$password);
 		print $db;
 		
 		$query = "UPDATE  `cqgame`.`avatars` SET  `avatar_name` =  'Unthank' WHERE  `avatars`.`avatar_id` =1;";
-		mysql_query($query);
-?>f
+		mysql_query($query);*/
+		
+		
+	print_r ($_SERVER);	
+		
+?>
 
