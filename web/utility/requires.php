@@ -14,7 +14,7 @@ $player = new Player($_SESSION['player_id']);
 $avatar = new Avatar($player->playerId);
 $game = new ArrayObject();
 $game->gameId = 0;
-$game->gameTurn = 0;
+$game->gameTurn = 1;
 
 function tidyUp() {
 	

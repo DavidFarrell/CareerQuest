@@ -6,7 +6,7 @@ require_once("./utility/requires.php");
 //css id "view_time_units" is current remaining TUs
 // just now game turn id is hardcoded 
 
-$weekly_activities = $GLOBALS['databaseUtility']->get_player_weekly_activities( $player->playerId, 0 );
+$weekly_activities = $GLOBALS['databaseUtility']->get_player_weekly_activities( $player->playerId, $game->gameTurn );
 
 $hasMadeChoices = false;
 // if player has previously submitted options, reduce score.
@@ -181,8 +181,10 @@ function submitForm() {
     
     <div class="footer_bubble">
     	<h1 class="fltlft" style="padding: 0 0 0 15px;">My Goal:</h1>   
-        <p class="fltlft" style="padding: 4px 0;">
-        	Haven't thought about my goal!
+        <p class="fltlft" style="padding: 4px 0;">        	
+        	<?php
+				print ucfirst(nl2br(htmlspecialchars($player->goal)));				
+			?>
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
         <p class="fltlft" >Feedback will appear here in due course.

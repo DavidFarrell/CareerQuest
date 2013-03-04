@@ -154,7 +154,9 @@ function submitDilemmaOption(option_chosen) {
     <div class="footer_bubble">
     	<h1 class="fltlft" style="padding: 0 0 0 15px;">My Goal:</h1>   
         <p class="fltlft" style="padding: 4px 0;">
-        		Haven't thought about my goal!
+        	<?php
+				print ucfirst(nl2br(htmlspecialchars($player->goal)));				
+			?>
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
         <p class="fltlft" >Feedback will appear here in due course.

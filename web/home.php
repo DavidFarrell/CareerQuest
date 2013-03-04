@@ -19,9 +19,14 @@ $GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $pl
 </head>
 
 <body>
-
 <div class="container">
-  <header>
+<?php if ($GLOBALS['debug']) {?>
+    <span class="error_red">
+		Feedback: <?php print_r ($_SESSION['feedback']);    ?>
+    </span>
+<?php
+}
+?>  <header>
   	<div id="logo" class="fltlft">
         <a href="home.php">
             <img 
@@ -105,7 +110,7 @@ $GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $pl
         	<h1><?php print $GLOBALS["homestrings"]["Daily_Options"][ ($player->autonomySupport)]; ?></h1>
             <H2><?php print $GLOBALS["homestrings"]["daily_prompt"][ ($player->autonomySupport)]; ?></H2>
             <ul>
-            	<li><a href="daily1.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
+            	<li><a href="daily20130304.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
             </ul>
         </div>
      </div>
@@ -125,13 +130,49 @@ $GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $pl
 			?>
         </p><br class="clearfloat">
         <h1 class="fltlft" style="padding: 0 0 0 15px;">Feedback:</h1>   
-        <p class="fltlft" >Feedback will appear here in due course.
-        <!--
-        	+1 <img src="../assets/awareness_logo.png" width="26" height="26">
-            +5 <img src="../assets/ability_logo.png" width="26" height="26">
-            -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
-            -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
-        -->
+        <p class="fltlft" >
+        <?php if ( $player->competenceSupport == $GLOBALS['competence_support']['low'] ) {
+			?>
+            You'll find out how badly you did soon.
+            <!--
+                +1 <img src="../assets/awareness_logo.png" width="26" height="26">
+                +5 <img src="../assets/ability_logo.png" width="26" height="26">
+                -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
+                -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
+            -->
+        <?php
+		} else if ( $player->competenceSupport == $GLOBALS['competence_support']['medium'] ) {
+			?>
+           Feedback will appear here shortly.
+            <!--
+                +1 <img src="../assets/awareness_logo.png" width="26" height="26">
+                +5 <img src="../assets/ability_logo.png" width="26" height="26">
+                -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
+                -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
+            -->
+        <?php
+		} else if ( $player->competenceSupport == $GLOBALS['competence_support']['high'] ) {
+			?>
+            Tomorrow, you'll find out how well you did this week.
+            <!--
+                +1 <img src="../assets/awareness_logo.png" width="26" height="26">
+                +5 <img src="../assets/ability_logo.png" width="26" height="26">
+                -2 <img src="../assets/professionalism_logo.png" width="26" height="26">
+                -8 <img src="../assets/work_ethic_logo.png" width="26" height="26">
+            -->
+        <?php
+		} 
+		?>
+       
+        <span class="error_red">
+			<?php if ( isset($_GET["message"]) ) {
+				?>  <br>&nbsp;<br>
+                <?php
+                print $_GET["message"];
+            }
+            
+            ?>
+        </span>
         </p><br/>
     </div>
     
