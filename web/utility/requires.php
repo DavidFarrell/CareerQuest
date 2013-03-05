@@ -4,10 +4,13 @@ require_once("./utility/globals.php");
 require_once("./utility/Player.php");
 require_once("./utility/Avatar.php");
 require_once("./utility/Activity.php");
+require_once("./utility/Feedback.php");
 require_once("./utility/DilemmaOption.php");
 require_once("./utility/Dilemma.php");
 
+// if not logged in, redirect
 require_once("./utility/is_logged_in.php");
+
 
 
 $player = new Player($_SESSION['player_id']);

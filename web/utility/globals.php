@@ -9,6 +9,29 @@ $GLOBALS['activity_type'][2] = "Ability";
 $GLOBALS['activity_type'][3] = "Professionalism";
 $GLOBALS['activity_type'][4] = "Work Ethic";
 
+$GLOBALS['scoretype_wellbeing'] = 0;
+$GLOBALS['scoretype_awareness'] = 1;
+$GLOBALS['scoretype_ability'] = 2;
+$GLOBALS['scoretype_professionalism'] = 3;
+$GLOBALS['scoretype_work_ethic'] = 4;
+
+$GLOBALS['mechanic_weekly'] = 0;
+$GLOBALS['mechanic_dilemma'] = 1;
+$GLOBALS['mechanic_daily'] = 3;
+
+
+
+
+$GLOBALS['feedback_weekly'] = 0;
+$GLOBALS['feedback_dilemma'] = 1;
+$GLOBALS['feedback_daily'] = 2;
+$GLOBALS['feedback_bev'] = 3;
+$GLOBALS['feedback_type'][0] = "Feedback on Fortnightly Options";
+$GLOBALS['feedback_type'][1] = "Feedback on Last Week's Dilemma";
+$GLOBALS['feedback_type'][2] = "Feedback on Daily Tasks";
+$GLOBALS['feedback_type'][3] = "A comment from Bev the Careers Advisor";
+
+
 $GLOBALS['autonomy_support']['low'] = 0;
 $GLOBALS['autonomy_support']['medium'] = 1;
 $GLOBALS['autonomy_support']['high'] = 2;

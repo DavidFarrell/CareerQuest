@@ -11,22 +11,31 @@ class Feedback {
 	public $lastModified;
 	
 	function __construct($player_id, $game_id, $game_turn, $feedback_type) {
-		if ( $player_id != null && $game_id != null && $game_turn != null && $feedback_type) {
+		if ( $player_id != null && $game_id != null && $game_turn != null ) {
 			$this->loadFeedback($player_id, $game_id, $game_turn, $feedback_type);	
-		}
+		} 
 	}
 	
 	function loadFeedback($player_id, $game_id, $game_turn, $feedback_type)  {
-		if ( $player_id != null && $game_id != null && $game_turn != null && $feedback_type) {
+		if ( $player_id != null && $game_id != null && $game_turn != null ) {
 			$feedback_array = $GLOBALS['databaseUtility']->db_load_feedback($player_id, $game_id, $game_turn, $feedback_type);	
-		
-			$this->playerId = $avatar_array['player_id'];
-			$this->gameId = $avatar_array['gameId'];
-			$this->gameTurn = $avatar_array['gameTurn'];
-			$this->feedbackType = $avatar_array['feedback_type'];
-			$this->feedbackText = $avatar_array['feedback_text'];
-			$this->feedbackAcknowledged = $avatar_array['feedback_acknowledged'];
-			$this->lastModified = $avatar_array['last_modified'];
+			if ($feedback_array != null ) {
+				$this->playerId = $feedback_array['player_id'];
+				$this->gameId = $feedback_array['game_id'];
+				$this->gameTurn = $feedback_array['game_turn'];
+				$this->feedbackType = $feedback_array['feedback_type'];
+				$this->feedbackText = $feedback_array['feedback_text'];
+				$this->feedbackAcknowledged = $feedback_array['feedback_acknowledged'];
+				$this->lastModified = $feedback_array['last_updated'];
+			} else {
+				$this->playerId = null;
+				$this->gameId = null;
+				$this->gameTurn = null;
+				$this->feedbackType = null;
+				$this->feedbackText = null;
+				$this->feedbackAcknowledged = null;
+				$this->lastModified = null;
+			}
 		}
 	}
 	

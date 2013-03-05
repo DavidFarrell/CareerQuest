@@ -691,5 +691,256 @@ class DatabaseUtility {
 			}	
 		}
 	}
+
+	
+	
+	function db_save_feedback($player_id, $game_id, $game_turn, $feedback_type, $feedback_text, $feedback_acknowledged=null) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		$feedback_type = $this->db_escape($feedback_type);
+		$feedback_text = $this->db_escape($feedback_text);
+		if ($feedback_acknowledged != null) {
+			$feedback_acknowledged = $this->db_escape($feedback_acknowledged);
+		}
+		$sql =  "replace INTO  `feedback` (
+					`player_id` ,
+					`game_id` ,
+					`game_turn` ,
+					`feedback_type` ,
+					`feedback_text`";
+		if ( $feedback_acknowledged != null ) {
+			$sql .= " , `feedback_acknowledged` ";	
+		}
+		$sql.= " )
+					VALUES (
+					'".$player_id."',  '".$game_id."',  '".$game_turn."',  '".
+					$feedback_type."', '".$feedback_text."' ";
+					
+		if ($feedback_acknowledged != null ) {
+			$sql .= ", '".$feedback_acknowledged."' ";	
+		}
+		$sql .= " );";
+		$result = mysql_query($sql);
+		if(!$result) {
+			if ($GLOBALS['debug']) {
+				die ("Failed to save Feedback.\n$sql\n". mysql_error() );;
+			}
+		}
+	}
+	
+	/*
+		returns an array, indexed thus
+		[mechanic type (e.g. weekly)][score type (e.g. wellness)] = score
+		
+		because the avatar has scores hard coded, you must subtract if you want to show change over time
+	*/
+	function db_get_cumulative_scores($player_id, $game_id, $game_turn) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$avatar = $this->db_load_current_avatar($player_id);
+	
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		$scores = null;
+		// first get all weekly scores
+		$sql = "SELECT player_weekly_activities.activity_id, activities.score_wellness, activities.score_awareness,".
+				" activities.score_ability, activities.score_professionalism, activities.score_work_ethic ". 
+				" FROM player_weekly_activities, activities  ". 
+				" WHERE player_weekly_activities.activity_id = activities.activity_id ". 
+				" AND player_weekly_activities.player_id = ". $player_id . 
+				" AND player_weekly_activities.game_id = ". $game_id .  
+				" AND player_weekly_activities.game_turn = ". $game_turn. 
+				" AND player_weekly_activities.chosen =1 " .
+				" ORDER BY player_weekly_activities.game_turn asc, activities.activity_id asc";
+		$result = mysql_query($sql);
+		while ($row = mysql_fetch_array($result)) {
+			$scores[$GLOBALS['mechanic_weekly']] [$GLOBALS['scoretype_wellbeing']] += $row['score_wellness'];
+			$scores[$GLOBALS['mechanic_weekly']] [$GLOBALS['scoretype_awareness']] += $row['score_awareness'];
+			$scores[$GLOBALS['mechanic_weekly']] [$GLOBALS['scoretype_ability']] += $row['score_ability'];
+			$scores[$GLOBALS['mechanic_weekly']] [$GLOBALS['scoretype_professionalism']] += $row['score_professionalism'];
+			$scores[$GLOBALS['mechanic_weekly']] [$GLOBALS['scoretype_work_ethic']] += $row['score_work_ethic'];
+		}
+		
+		
+		// then check for Dilemmas where the player chose an existing answer.
+		$sql = "SELECT dilemmas.dilemma_name, ".
+				"player_weekly_dilemmas.dilemma_id, player_weekly_dilemmas.dilemma_option_chosen, 
+				 player_weekly_dilemmas.player_option_chosen, ".
+				"dilemma_options.dilemma_option_description, dilemma_options.dilemma_option_id, dilemma_options.score_wellness, ".
+				"dilemma_options.score_awareness, dilemma_options.score_ability, dilemma_options.score_professionalism, ". 			
+				"dilemma_options.score_work_ethic ".					
+				"FROM dilemma_options, dilemmas, player_weekly_dilemmas ".
+				"WHERE dilemma_options.dilemma_option_id = player_weekly_dilemmas.dilemma_option_chosen ".
+				"AND dilemma_options.dilemma_id = dilemmas.dilemma_id ".
+				"AND dilemmas.dilemma_id = player_weekly_dilemmas.dilemma_id ".					
+				"AND player_id = ". $player_id . 
+				" AND game_turn =" . $game_turn;
+			$result = mysql_query($sql);
+		while ($row = mysql_fetch_array($result)) {
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_wellbeing']] += $row['score_wellness'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_awareness']] += $row['score_awareness'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_ability']] += $row['score_ability'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_professionalism']] += $row['score_professionalism'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_work_ethic']] += $row['score_work_ethic'];
+		}
+		
+		// and now for Dilemmas that the user submitted themselves
+		// then check for Dilemmas where the player chose an existing answer.
+		$sql = "SELECT 
+
+				player_weekly_dilemmas.dilemma_id, player_weekly_dilemmas.dilemma_option_chosen,
+				player_weekly_dilemmas.player_option_chosen,
+				
+				player_submitted_dilemma_solutions.score_wellness, player_submitted_dilemma_solutions.score_awareness,
+				player_submitted_dilemma_solutions.score_ability, player_submitted_dilemma_solutions.score_professionalism, 
+				player_submitted_dilemma_solutions.score_work_ethic
+				
+				from player_weekly_dilemmas, player_submitted_dilemma_solutions
+				
+				where player_weekly_dilemmas.dilemma_id = player_submitted_dilemma_solutions.dilemma_id and 
+				player_weekly_dilemmas.player_id = player_submitted_dilemma_solutions.player_id and
+				
+				player_weekly_dilemmas.player_id = ". $player_id . 
+				" AND player_weekly_dilemmas.game_turn =" . $game_turn;
+			$result = mysql_query($sql);
+		while ($row = mysql_fetch_array($result)) {
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_wellbeing']] += $row['score_wellness'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_awareness']] += $row['score_awareness'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_ability']] += $row['score_ability'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_professionalism']] += $row['score_professionalism'];
+			$scores[$GLOBALS['mechanic_dilemma']] [$GLOBALS['scoretype_work_ethic']] += $row['score_work_ethic'];
+		}
+		
+		
+		//finally get scores for dailies
+		$sql = "select * from player_daily_tasks where player_id = ". $player_id .
+				" and game_turn = " . $game_turn." order by day asc";
+				
+			$result = mysql_query($sql);
+		while ($row = mysql_fetch_array($result)) {
+			$scores[$GLOBALS['mechanic_daily']] [$GLOBALS['scoretype_wellbeing']] += $row['score_wellness'];
+			$scores[$GLOBALS['mechanic_daily']] [$GLOBALS['scoretype_awareness']] += $row['score_awareness'];
+			$scores[$GLOBALS['mechanic_daily']] [$GLOBALS['scoretype_ability']] += $row['score_ability'];
+			$scores[$GLOBALS['mechanic_daily']] [$GLOBALS['scoretype_professionalism']] += $row['score_professionalism'];
+			$scores[$GLOBALS['mechanic_daily']] [$GLOBALS['scoretype_work_ethic']] += $row['score_work_ethic'];
+		}
+		return $scores;
+	}
+	
+	
+	function db_get_last_week_scores($player_id, $game_id, $game_turn) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$avatar = $this->db_load_current_avatar($player_id);
+	
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		$scores = null;
+		
+		$scores[0] = $this->db_get_cumulative_scores($player_id, $game_id, 0);
+		$scores[1] = $this->db_get_cumulative_scores($player_id, $game_id, 1);
+		$scores[2] = $this->db_get_cumulative_scores($player_id, $game_id, 2);
+		$scores[3] = $this->db_get_cumulative_scores($player_id, $game_id, 2);
+		
+		$last_turn = ($game_turn -1);
+		
+		$last_week_scores[$GLOBALS['scoretype_wellbeing']] = $avatar->scoreWellbeing;
+		$last_week_scores[$GLOBALS['scoretype_wellbeing']] -= $scores[ $last_turn ][$GLOBALS['mechanic_weekly']][$GLOBALS['scoretype_wellbeing']];
+		$last_week_scores[$GLOBALS['scoretype_wellbeing']] -= $scores[ $last_turn ][$GLOBALS['mechanic_daily']][$GLOBALS['scoretype_wellbeing']];
+		$last_week_scores[$GLOBALS['scoretype_wellbeing']] -= $scores[ $last_turn ][$GLOBALS['mechanic_dilemma']][$GLOBALS['scoretype_wellbeing']];
+		
+		$last_week_scores[$GLOBALS['scoretype_awareness']] = $avatar->scoreAwareness;
+		$last_week_scores[$GLOBALS['scoretype_awareness']] -= $scores[ $last_turn ][$GLOBALS['mechanic_weekly']][$GLOBALS['scoretype_awareness']];
+		$last_week_scores[$GLOBALS['scoretype_awareness']] -= $scores[ $last_turn ][$GLOBALS['mechanic_daily']][$GLOBALS['scoretype_awareness']];
+		$last_week_scores[$GLOBALS['scoretype_awareness']] -= $scores[ $last_turn ][$GLOBALS['mechanic_dilemma']][$GLOBALS['scoretype_awareness']];
+		
+		$last_week_scores[$GLOBALS['scoretype_ability']] = $avatar->scoreAbility;
+		$last_week_scores[$GLOBALS['scoretype_ability']] -= $scores[ $last_turn ][$GLOBALS['mechanic_weekly']][$GLOBALS['scoretype_ability']];
+		$last_week_scores[$GLOBALS['scoretype_ability']] -= $scores[ $last_turn ][$GLOBALS['mechanic_daily']][$GLOBALS['scoretype_ability']];
+		$last_week_scores[$GLOBALS['scoretype_ability']] -= $scores[ $last_turn ][$GLOBALS['mechanic_dilemma']][$GLOBALS['scoretype_ability']];
+		
+		$last_week_scores[$GLOBALS['scoretype_professionalism']] = $avatar->scoreAwareness;
+		$last_week_scores[$GLOBALS['scoretype_professionalism']] -= $scores[ $last_turn ][$GLOBALS['mechanic_weekly']][$GLOBALS['scoretype_professionalism']];
+		$last_week_scores[$GLOBALS['scoretype_professionalism']] -= $scores[ $last_turn ][$GLOBALS['mechanic_daily']][$GLOBALS['scoretype_professionalism']];
+		$last_week_scores[$GLOBALS['scoretype_professionalism']] -= $scores[ $last_turn ][$GLOBALS['mechanic_dilemma']][$GLOBALS['scoretype_professionalism']];
+		
+		$last_week_scores[$GLOBALS['scoretype_work_ethic']] = $avatar->scoreAwareness;
+		$last_week_scores[$GLOBALS['scoretype_work_ethic']] -= $scores[ $last_turn ][$GLOBALS['mechanic_weekly']][$GLOBALS['scoretype_work_ethic']];
+		$last_week_scores[$GLOBALS['scoretype_work_ethic']] -= $scores[ $last_turn ][$GLOBALS['mechanic_daily']][$GLOBALS['scoretype_work_ethic']];
+		$last_week_scores[$GLOBALS['scoretype_work_ethic']] -= $scores[ $last_turn ][$GLOBALS['mechanic_dilemma']][$GLOBALS['scoretype_work_ethic']];
+ 	
+		return $last_week_scores;
+	}
+	
+	
+	function db_load_feedback($player_id, $game_id, $game_turn, $feedback_type) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		$feedback_type = $this->db_escape($feedback_type);
+		
+		$sql = "SELECT * FROM feedback where player_id = " . $player_id . " and game_id = " . $game_id  .
+				" and game_turn = " . $game_turn . " and feedback_type = " . $feedback_type;
+		$result = mysql_query($sql);
+	
+		if($row = mysql_fetch_array($result)) {
+		  return $row;
+		} else return null;
+	}
+	
+	// returns array of feedback objects ordered by feedback type asc
+	function db_find_unacknowledged_feedback($player_id, $game_id, $game_turn) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		$feedbacks = null;
+		// 4 types of fedback.
+		$weeklyFeedback = new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_weekly']);
+		$dailyFeedback =  new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_daily']);
+		$dilemmaFeedback =  new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_dilemma']);
+		$bevFeedback =  new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_bev']);
+		
+		
+		if ( ($dailyFeedback->playerId != null) && !$dailyFeedback->feedbackAcknowledged ) {
+			$feedbacks[] = $dailyFeedback;	
+		}
+		if ( ($weeklyFeedback->playerId != null) && !$weeklyFeedback->feedbackAcknowledged ) {
+			$feedbacks[] = $weeklyFeedback;	
+		}
+		if ( ($dilemmaFeedback->playerId != null) && !$dilemmaFeedback->feedbackAcknowledged ) {
+			$feedbacks[] = $dilemmaFeedback;	
+		}
+		if ( ($bevFeedback->playerId != null) && !$bevFeedback->feedbackAcknowledged ) {
+			$feedbacks[] = $bevFeedback;	
+		}
+		return $feedbacks;
+	}
+	
+	function acknowledged_feedback($player_id, $game_id, $game_turn) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$player_id = $this->db_escape($player_id);
+		$game_id = $this->db_escape($game_id);
+		$game_turn = $this->db_escape($game_turn);
+		
+		$sql = "UPDATE feedback set feedback_acknowledged = 1 where player_id =  ". $player_id . " and game_id = ". $game_id . " and game_turn = ". $game_turn;
+		
+		$result = mysql_query($sql);
+	}
 }
 ?>
