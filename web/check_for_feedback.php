@@ -44,12 +44,13 @@ if (sizeof($feedbacks) > 0) {
          <a href="logout.php">
       	  <img src="../assets/employability_logo.png" width="52" height="52" alt="Employability">
           </a>
+          
     </div>
 	
   </header>
-  
   <article class="content">
     <section>
+    <p><br></p>
      <div class="content_area_bubble_wide">
      	<div class="content_area_activity_chooser">
         	<h1>Feedback</h1>&nbsp;<br>

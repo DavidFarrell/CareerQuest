@@ -13,4 +13,14 @@ $GLOBALS['MYSQL_DATABASE'] = "cqgame";
 $GLOBALS['MYSQL_USER'] = "dfarrell";
 $GLOBALS['MYSQL_PASSWORD'] = "bOUncey179";
 }
+
+// testing live local
+if (true) { 
+
+$GLOBALS['MYSQL_HOST'] = "localhost";
+$GLOBALS['MYSQL_PORT'] = "8889";
+$GLOBALS['MYSQL_DATABASE'] = "cqlive";
+$GLOBALS['MYSQL_USER'] = "root";
+$GLOBALS['MYSQL_PASSWORD'] = "root";
+}
 ?>

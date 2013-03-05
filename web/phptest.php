@@ -2,20 +2,22 @@
 
 require_once("./utility/requires.php");
 
-$player = new Player(82);
-$avatar = new Avatar(82);
+
+$players = $GLOBALS['databaseUtility']->db_load_all_players();
+
+foreach ($players as $index=>$player) {
+	$avatar = new Avatar($player->playerId);
+	
+}
+
 
 print_r($player);
 print "\n\n";
 print_r($avatar);
 
 
-print "\n\n";
-print "\n\n";
 
-
-
-// populate database for one player's activities for all weeks
+/* populate database for one player's activities for all weeks
 
 $GLOBALS['databaseUtility']->pick_weekly_activities($player->playerId, 0);
 $GLOBALS['databaseUtility']->pick_weekly_activities($player->playerId, 1);
@@ -33,7 +35,7 @@ $GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 0);
 //$activity = new Activity(2);
 
 //print  "\n\n". $activity;
-
+*/
 
 
 /*

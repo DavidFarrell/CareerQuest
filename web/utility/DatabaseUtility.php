@@ -276,7 +276,7 @@ class DatabaseUtility {
 		$avatar = new Avatar($player_id);
 		// need to chagne this should be weekly options current
 		$time_units = 1;
-		$time_units = $avatar->weeklyTimeUnitsCurrent;
+		$time_units = $avatar->weeklyTimeUnitsCurrent + $avatar->weeklyTimeUnitsBuff;
 		$random_activity_index = null;
 		$random_activity = null;
 		// chosen items represents the items selected in this function - it contains activity ids, not Activities.
@@ -833,6 +833,27 @@ class DatabaseUtility {
 		return $scores;
 	}
 	
+	function db_update_avatar_scores($player_id, $scores) {
+		if(!$this->db) {
+			db_connect();
+		}
+		$avatar = new Avatar($player_id);
+		
+		$avatar->scoreWellbeing += $scores[$GLOBALS['scoretype_wellbeing']];
+		$avatar->scoreAwareness += $scores[$GLOBALS['scoretype_awareness']];
+		$avatar->scoreAbility += $scores[$GLOBALS['scoretype_ability']];
+		$avatar->scoreProfessionalism += $scores[$GLOBALS['scoretype_professionalism']];
+		$avatar->scoreWorkEthic += $scores[$GLOBALS['scoretype_work_ethic']];
+		
+		$sql = "Update avatars set score_wellbeing = " .$avatar->scoreWellbeing. 
+								", score_awareness = " .$avatar->scoreAwareness. 
+								", score_ability = " .$avatar->scoreAbility. 
+								", score_professionalism = " .$avatar->scoreProfessionalism. 
+								", score_work_ethic = " .$avatar->scoreWorkEthic .
+				" WHERE player_id = " . $player_id;
+				
+		$result = mysql_query($sql);
+	}
 	
 	function db_get_last_week_scores($player_id, $game_id, $game_turn) {
 		if(!$this->db) {
@@ -876,7 +897,7 @@ class DatabaseUtility {
 		$last_week_scores[$GLOBALS['scoretype_work_ethic']] -= $scores[ $last_turn ][$GLOBALS['mechanic_weekly']][$GLOBALS['scoretype_work_ethic']];
 		$last_week_scores[$GLOBALS['scoretype_work_ethic']] -= $scores[ $last_turn ][$GLOBALS['mechanic_daily']][$GLOBALS['scoretype_work_ethic']];
 		$last_week_scores[$GLOBALS['scoretype_work_ethic']] -= $scores[ $last_turn ][$GLOBALS['mechanic_dilemma']][$GLOBALS['scoretype_work_ethic']];
- 	
+		
 		return $last_week_scores;
 	}
 	
@@ -913,7 +934,6 @@ class DatabaseUtility {
 		$dailyFeedback =  new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_daily']);
 		$dilemmaFeedback =  new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_dilemma']);
 		$bevFeedback =  new Feedback($player_id, $game_id, $game_turn, $GLOBALS['feedback_bev']);
-		
 		
 		if ( ($dailyFeedback->playerId != null) && !$dailyFeedback->feedbackAcknowledged ) {
 			$feedbacks[] = $dailyFeedback;	

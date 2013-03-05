@@ -9,6 +9,11 @@ require_once("./utility/requires.php");
 $weekly_activities = $GLOBALS['databaseUtility']->get_player_weekly_activities( $player->playerId, $game->gameTurn );
 
 $hasMadeChoices = false;
+
+//hacky
+$avatar->weeklyTimeUnitsCurrent += $avatar->weeklyTimeUnitsBuff;
+
+
 // if player has previously submitted options, reduce score.
 foreach($weekly_activities as $key=>$currentActivity) {
 	if ($currentActivity->activityChosen) {

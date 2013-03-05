@@ -8,6 +8,13 @@ $GLOBALS['databaseUtility']->db_log("Player_Looked_At_Home_Screen", "p = " . $pl
 
 $last_week_scores = $GLOBALS['databaseUtility']->db_get_last_week_scores($player->playerId, $game->gameId, $game->gameTurn);
 
+$last_week_scores[$GLOBALS['scoretype_wellbeing']] = $last_week_scores[$GLOBALS['scoretype_wellbeing']] *-1;
+$last_week_scores[$GLOBALS['scoretype_awareness']] = -1* $last_week_scores[$GLOBALS['scoretype_awareness']] ;
+$last_week_scores[$GLOBALS['scoretype_ability']] = -1* $last_week_scores[$GLOBALS['scoretype_ability']] ;
+$last_week_scores[$GLOBALS['scoretype_professionalism']] = -1* $last_week_scores[$GLOBALS['scoretype_professionalism']] ;
+$last_week_scores[$GLOBALS['scoretype_work_ethic']] = -1* $last_week_scores[$GLOBALS['scoretype_work_ethic']] ;
+
+
 $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness']] + 
 								 $last_week_scores[$GLOBALS['scoretype_ability']] + 
 								 $last_week_scores[$GLOBALS['scoretype_professionalism']] + 
@@ -44,7 +51,7 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
         </a>
     </div>
     <div class="graduation">
-    	<p><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: 8 Weeks.</p>
+    	<p><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: <span class="action_orange">7 Weeks</span>.</p>
     </div>
 
   	<div class="header_score">
@@ -117,7 +124,7 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
         	<h1><?php print $GLOBALS["homestrings"]["Daily_Options"][ ($player->autonomySupport)]; ?></h1>
             <H2><?php print $GLOBALS["homestrings"]["daily_prompt"][ ($player->autonomySupport)]; ?></H2>
             <ul>
-            	<li><a href="daily20130304.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
+            	<li><a href="daily20130305.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
             </ul>
         </div>
      </div>
@@ -143,16 +150,16 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
             This was a rough week for <?php print $avatar->avatarName; ?>.<br>
             Over the last week, your score changed by this amount: 
              <?php 
-			 	if ( ($avatar->scoreWellbeing - $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) > 0) {
+			 	if ( ( $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) > 0) {
 					print "+";
 				}
-			 	print ($avatar->scoreWellbeing - $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) ; 
+			 	print ($last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) ; 
 			?> <img src="../assets/wellbeing_logo.png" width="26" height="26">
               <?php
-			  	 if ( ($avatar->scoreEmployability - $employabilityLastWeek) > 0) {
+			  	 if ( ($employabilityLastWeek) > 0) {
 					print "+";
 				}
-			     print ($avatar->scoreEmployability - $employabilityLastWeek);
+			     print ($employabilityLastWeek);
 			  ?> <img src="../assets/employability_logo.png" width="26" height="26"><br>
              This puts <?php print $avatar->avatarName; ?> in the bottom third of the class.<br>
              If <?php print $avatar->avatarName; ?> wants a job at the end of term, things have to change.
@@ -167,16 +174,16 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
 			?>
            Over the last week, <?php print $avatar->avatarName; ?>'s score changed by: 
              <?php 
-			 	if ( ($avatar->scoreWellbeing - $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) > 0) {
+			 	if ( ($last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) > 0) {
 					print "+";
 				}
-			 	print ($avatar->scoreWellbeing - $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) ; 
+			 	print ( $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) ; 
 			?> <img src="../assets/wellbeing_logo.png" width="26" height="26">
               <?php
-			  	 if ( ($avatar->scoreEmployability - $employabilityLastWeek) > 0) {
+			  	 if ( ( $employabilityLastWeek) > 0) {
 					print "+";
 				}
-			     print ($avatar->scoreEmployability - $employabilityLastWeek);
+			     print ( $employabilityLastWeek);
 			  ?> <img src="../assets/employability_logo.png" width="26" height="26"><br>
             <!--
                 +1 <img src="../assets/awareness_logo.png" width="26" height="26">
@@ -190,44 +197,44 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
             Compared to other players, <?php print $avatar->avatarName; ?> did well this week. <br>&nbsp;<br>
             Wellbeing 
              <?php 
-			 	if ( ($avatar->scoreWellbeing - $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) > 0) {
+			 	if ( ($last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) > 0) {
 					print "+";
 				}
-			 	print ($avatar->scoreWellbeing - $last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) ; 
+			 	print ($last_week_scores[$GLOBALS['scoretype_wellbeing']]  ) ; 
 			?> <img src="../assets/wellbeing_logo.png" width="26" height="26">
              Employability 
              
               <?php
-			  	 if ( ($avatar->scoreEmployability - $employabilityLastWeek) > 0) {
+			  	 if ( ( $employabilityLastWeek) > 0) {
 					print "+";
 				}
-			     print ($avatar->scoreEmployability - $employabilityLastWeek);
+			     print ($employabilityLastWeek);
 			  ?> <img src="../assets/employability_logo.png" width="26" height="26"><br>&nbsp;<br>
               The individual Employability Attributes (each 1/4 Employability)<br>&nbsp;<br>
             
                 <?php 
-			 	if ( ($avatar->scoreAwareness - $last_week_scores[$GLOBALS['scoretype_awareness']]  ) > 0) {
+			 	if ( ($last_week_scores[$GLOBALS['scoretype_awareness']]  ) > 0) {
 					print "+";
 				} 
-			 	print ($avatar->scoreAwareness - $last_week_scores[$GLOBALS['scoretype_awareness']]  ) ; 
+			 	print ($last_week_scores[$GLOBALS['scoretype_awareness']]  ) ; 
 			?> <img src="../assets/awareness_logo.png" width="26" height="26">
                 <?php 
-			 	if ( ($avatar->scoreAbility - $last_week_scores[$GLOBALS['scoretype_ability']]  ) > 0) {
+			 	if ( ($last_week_scores[$GLOBALS['scoretype_ability']]  ) > 0) {
 					print "+";
 				} 
-			 	print ($avatar->scoreAbility - $last_week_scores[$GLOBALS['scoretype_ability']]  ) ; 
+			 	print ($last_week_scores[$GLOBALS['scoretype_ability']]  ) ; 
 			?> <img src="../assets/ability_logo.png" width="26" height="26">
                 <?php 
-			 	if ( ($avatar->scoreProfessionalism - $last_week_scores[$GLOBALS['scoretype_professionalism']]  ) > 0) {
+			 	if ( ($last_week_scores[$GLOBALS['scoretype_professionalism']]  ) > 0) {
 					print "+";
 				} 
-			 	print ($avatar->scoreProfessionalism - $last_week_scores[$GLOBALS['scoretype_professionalism']]  ) ; 
+			 	print ($last_week_scores[$GLOBALS['scoretype_professionalism']]  ) ; 
 			?> <img src="../assets/professionalism_logo.png" width="26" height="26">
                  <?php 
-			 	if ( ($avatar->scoreWorkEthic - $last_week_scores[$GLOBALS['scoretype_work_ethic']]  ) > 0) {
+			 	if ( ($last_week_scores[$GLOBALS['scoretype_work_ethic']]  ) > 0) {
 					print "+";
 				} 
-			 	print ($avatar->scoreWorkEthic - $last_week_scores[$GLOBALS['scoretype_work_ethic']]  ) ; 
+			 	print ($last_week_scores[$GLOBALS['scoretype_work_ethic']]  ) ; 
 			?> <img src="../assets/work_ethic_logo.png" width="26" height="26">
            
         <?php
