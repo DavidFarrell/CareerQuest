@@ -27,6 +27,11 @@ for ( $id = 44; $id <75; $id++) {
 }
 */
 
+$player = new Player(84);
+$avatar = new Avatar(84);
+$GLOBALS['databaseUtility']->pick_weekly_activities($player->playerId, $game->gameTurn);
+
+
 /* step 4 - make dilemmas for people for this week 
 
 for ( $id = 44; $id <75; $id++) {
@@ -34,6 +39,9 @@ for ( $id = 44; $id <75; $id++) {
 	$GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 0);
 }
 */
+
+$GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, $game->gameTurn);
+
   
 //$GLOBALS['databaseUtility']->pick_weekly_dilemmas($player->playerId, 0);
 //$dilemma = new Dilemma(2);

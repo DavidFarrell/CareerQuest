@@ -37,14 +37,14 @@ $players = $GLOBALS['databaseUtility']->db_load_all_players();
         	<select name="feedback_type" >
               <option value="<?php print $GLOBALS['feedback_weekly'];?>">Weekly</option>
               <option value="<?php print $GLOBALS['feedback_dilemma'];?>">Dilemma</option>
-              <option value="<?php print $GLOBALS['feedback_daily'];?>">Daily</option>
-              <option value="<?php print $GLOBALS['feedback_bev'];?>" selected>Bev</option>
+              <option value="<?php print $GLOBALS['feedback_daily'];?>" selected>Daily</option>
+              <option value="<?php print $GLOBALS['feedback_bev'];?>" >Bev</option>
             </select>
         </td>
     </tr>
     <tr>
     	<td>Feedback:</td>
-        <td><textarea name="feedback_text"></textarea></td>
+        <td><textarea name="feedback_text" cols="30" rows="10"></textarea></td>
     </tr>
     <input type="hidden" value="" />
     <tr>
@@ -54,6 +54,7 @@ $players = $GLOBALS['databaseUtility']->db_load_all_players();
     
 
 </table>
-
+<p>
+<a href="home.php">home</a>
 
 </form>

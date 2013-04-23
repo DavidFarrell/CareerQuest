@@ -844,14 +844,17 @@ class DatabaseUtility {
 		$avatar->scoreAbility += $scores[$GLOBALS['scoretype_ability']];
 		$avatar->scoreProfessionalism += $scores[$GLOBALS['scoretype_professionalism']];
 		$avatar->scoreWorkEthic += $scores[$GLOBALS['scoretype_work_ethic']];
-		
+		/*
+		print "\nAvatar: \n";
+		print_r($avatar);
+		die();
+		*/
 		$sql = "Update avatars set score_wellbeing = " .$avatar->scoreWellbeing. 
 								", score_awareness = " .$avatar->scoreAwareness. 
 								", score_ability = " .$avatar->scoreAbility. 
 								", score_professionalism = " .$avatar->scoreProfessionalism. 
 								", score_work_ethic = " .$avatar->scoreWorkEthic .
 				" WHERE player_id = " . $player_id;
-				
 		$result = mysql_query($sql);
 	}
 	

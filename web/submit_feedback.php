@@ -12,5 +12,5 @@ $feedback_text = $_POST['feedback_text'];
 	
 $GLOBALS['databaseUtility']->db_save_feedback($player_id, $game_id, $game_turn, $feedback_type, $feedback_text);
 		
-header('Location: home.php');
+header('Location: write_feedback.php');
 ?>

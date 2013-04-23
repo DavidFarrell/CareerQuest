@@ -51,7 +51,7 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
         </a>
     </div>
     <div class="graduation">
-    	<p><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: <span class="action_orange">7 Weeks</span>.</p>
+    	<p><span class="action_orange"><?php print $GLOBALS["homestrings"]["Graduation"][ ($player->autonomySupport) ]; ?>: 2 Weeks!!!</span>.</p>
     </div>
 
   	<div class="header_score">
@@ -69,7 +69,7 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
         <div class="avatar_sidebar" >
             <a href=""><img src="../avatars/<?php print $avatar->avatarImageURL; ?>" width="73" height="73" id="avatar_image"></a>
            <br/><?php print htmlspecialchars($avatar->avatarName); ?>
-           <br>Level 1: Jobseeker
+           <br>Level 2: Gopher
         </div>
       
         <div class="sidebar_scores" id="employability_score">
@@ -124,7 +124,7 @@ $employabilityLastWeek = floor( ($last_week_scores[$GLOBALS['scoretype_awareness
         	<h1><?php print $GLOBALS["homestrings"]["Daily_Options"][ ($player->autonomySupport)]; ?></h1>
             <H2><?php print $GLOBALS["homestrings"]["daily_prompt"][ ($player->autonomySupport)]; ?></H2>
             <ul>
-            	<li><a href="daily20130305.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
+            	<li><a href="daily20130320.php"><?php print $GLOBALS["homestrings"]["plan_day"][ ($player->autonomySupport)]; ?> <img src="../assets/plan_my_day_logo.png" width="51" height="51"></a></li>
             </ul>
         </div>
      </div>
